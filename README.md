@@ -1,77 +1,55 @@
-<!-- This should be the location of the title of the repository, normally the short name -->
-# repo-template
+Turbonomic K8S Operator
+====================
 
-<!-- Build Status, is a great thing to have at the top of your repository, it shows that you take your CI/CD as first class citizens -->
-<!-- [![Build Status](https://travis-ci.org/jjasghar/ibm-cloud-cli.svg?branch=master)](https://travis-ci.org/jjasghar/ibm-cloud-cli) -->
+The Turbonomic Kubernetes Operator (aka t8c-operator) is a k8s operator that is used to simplify 
+the deployment of the Turbonomic platform over a k8s cluster.
 
-<!-- Not always needed, but a scope helps the user understand in a short sentance like below, why this repo exists -->
-## Scope
+The t8c-operator consists of:
+* a docker image (that includes the operator software itself)
+* a CRD file that defines the k8s CustomResourceDefinition object (aka the api definition) of 
+  kind "Xl"
+* a CR file that creates an instance of "Xl", with a specific configuration
 
-The purpose of this project is to provide a template for new open source repositories.
+We ship a default config/CR file, but ultimately every customer will have its own modified CR 
+file that they will adapt to their environment and deployment solution. 
 
-<!-- A more detailed Usage or detailed explaination of the repository here -->
-## Usage
+Operator Backward Compatibility
+-------------------------------
+The customer CR file is not under our direct control.  
+**We need to maintain backward compatiblity on it, as much as possible.**
 
-This repository contains some example best practices for open source repositories:
+Those are the guidelines that we need to follow when changing its code:
+* We cannot release a different operator binary under the same version. If the binary is 
+  different, then we need to upgrade the version.
+  * This means that any changes to the operator files need to be released under a new docker 
+    image version.
+* Backward-compatibility NON-breaking changes:
+  * Increase the minor version
+  * Document the change made in the [CHANGELOG](CHANGELOG.md) file
+* Backward-compatibility breaking changes:
+    * Increase the major version
+    * Document the change made in the [CHANGELOG](CHANGELOG.md) file and write instructions for the customer on 
+      how to migrate its CR file to the new version.
 
-* [LICENSE](LICENSE)
-* [README.md](README.md)
-* [CONTRIBUTING.md](CONTRIBUTING.md)
-* [MAINTAINERS.md](MAINTAINERS.md)
-<!-- A Changelog allows you to track major changes and things that happen, https://github.com/github-changelog-generator/github-changelog-generator can help automate the process -->
-* [CHANGELOG.md](CHANGELOG.md)
 
-> These are optional
-
-<!-- The following are OPTIONAL, but strongly suggested to have in your repository. -->
-* [dco.yml](.github/dco.yml) - This enables DCO bot for you, please take a look https://github.com/probot/dco for more details.
-* [travis.yml](.travis.yml) - This is a example `.travis.yml`, please take a look https://docs.travis-ci.com/user/tutorial/ for more details.
-
-These may be copied into a new or existing project to make it easier for developers not on a project team to collaborate.
-
-<!-- A notes section is useful for anything that isn't covered in the Usage or Scope. Like what we have below. -->
-## Notes
-
-**NOTE: While this boilerplate project uses the Apache 2.0 license, when
-establishing a new repo using this template, please use the
-license that was approved for your project.**
-
-**NOTE: This repository has been configured with the [DCO bot](https://github.com/probot/dco).
-When you set up a new repository that uses the Apache license, you should
-use the DCO to manage contributions. The DCO bot will help enforce that.
-Please contact one of the IBM GH Org stewards.**
-
-<!-- Questions can be useful but optional, this gives you a place to say, "This is how to contact this project maintainers or create PRs -->
-If you have any questions or issues you can create a new [issue here][issues].
-
-Pull requests are very welcome! Make sure your patches are well tested.
-Ideally create a topic branch for every separate change you make. For
-example:
-
-1. Fork the repo
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
-
-## License
-
-All source files must include a Copyright and License header. The SPDX license header is 
-preferred because it can be easily scanned.
-
-If you would like to see the detailed LICENSE click [here](LICENSE).
-
-```text
-#
-# Copyright IBM Corp. {Year project was created} - {Current Year}
-# SPDX-License-Identifier: Apache-2.0
-#
-```
-## Authors
-
-Optionally, you may include a list of authors, though this is redundant with the built-in
-GitHub list of contributors.
-
-- Author: New OpenSource IBMer <new-opensource-ibmer@ibm.com>
-
-[issues]: https://github.com/IBM/repo-template/issues/new
+**Multi-operator deployment scenarios:**  
+There are some deployment scenarios where multiple operators might be involved, hence there can 
+be multiple versions of the operator running, related to the same Turbo instance.
+* IWO:
+  * One instance of the t8c-operator will control the main platform (tp, ao, market, group, ...), 
+    running in the cloud
+  * Another instance of the t8c-operator will run inside the Assist VM, controlling the remote 
+    onPrem probes. This instance (and the controlled probes) might not be upgraded at the same 
+    time as the one running on cloud, but at a later time
+  * This means that those 2 instances can run 2 totally different operator versions; they are 
+    independent, and there are no compatibility concerns (but backward compatibility should 
+    still be maintained at probe protocol and application layer, not at operator layer)  
+* KubeTurbo
+  * The t8c-operator will control the main platform (tp, ao, market, group, ...), running in a 
+    k8s cluster
+  * A specific kubeturbo operator will run in another k8s cluster (the one to monitor). This 
+    instance (and the kubeturbo probe it controls) might not be upgraded at the same as the one 
+    above, but at a later time.
+  * Those are 2 totally different operators, hence the versions will be different. They are
+    independent, and there are no compatibility concerns (but backward compatibility should
+    still be maintained at probe protocol and application layer, not at operator layer)  

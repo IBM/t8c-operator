@@ -1587,6 +1587,13 @@ spec:
                   enabled:
                     description: Enable AWS mediation
                     type: boolean
+                  cost:
+                    description: Configuration of AWS Cost probe
+                    properties:
+                      enabled:
+                        description: Disable AWS Cost by setting to `false`. By default, it is enabled if AWS is enabled
+                        type: boolean
+                    type: object
                 type: object
               awslambda:
                 properties:
@@ -1625,6 +1632,12 @@ spec:
                     description: Enable Apptio Cloudability mediation
                     type: boolean
                 type: object
+              cloudy-aws-pricing:
+                properties:
+                  enabled:
+                    description: Enable Cloudy AWS pricing mediation
+                    type: boolean
+                type: object
               compellent:
                 properties:
                   enabled:
@@ -1654,12 +1667,6 @@ spec:
                   enabled:
                     description: Enable GCP mediation
                     type: boolean
-                  metrics:
-                    properties:
-                      enabled:
-                        description: Enable GCP metrics adapter
-                        type: boolean
-                    type: object
                 type: object
               hds:
                 properties:
@@ -2059,6 +2066,53 @@ spec:
                     *componentTolerations
                   image:
                     *imageProperties
+                type: object
+              sustainability:
+                properties:
+                  enabled:
+                    description: Enable Sustainability service
+                    type: boolean
+                  dbSecretName:
+                    *dbComponentProperties
+                  annotations:
+                    description: component specific pod annotations list
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  tolerations:
+                    *componentTolerations
+                  env:
+                    description: component environment variable
+                    type: array
+                    items:
+                      type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  image:
+                    *imageProperties
+                  javaBaseOptions:
+                    description: java base options override
+                    type: string
+                  javaComponentOptions:
+                    description: java component options
+                    type: string
+                  javaDebugOptions:
+                    description: java debug options override
+                    type: string
+                  javaMaxRAMPercentage:
+                    description: java max RAM percentage override
+                    type: string
+                  javaOptions:
+                    description: java options override
+                    type: string
+                  debug:
+                    description: component debug
+                    type: boolean
+                  resources:
+                    description: component resource configuration
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceAccountName:
+                    description: component serviceAccountName
+                    type: string
                 type: object
               cloud-optimizer:
                 properties:
@@ -3509,6 +3563,52 @@ spec:
                   serviceAccountName:
                     description: component serviceAccountName
                     type: string
+                type: object
+              mediation-cloudy-awspricing:
+                properties:
+                  annotations:
+                    description: component specific pod annotations list
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  tolerations:
+                    *componentTolerations
+                  persistentVolumeClaim: *persistentVolumeClaim
+                  env:
+                    description: component environment variable
+                    type: array
+                    items:
+                      type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  image:
+                    *imageProperties
+                  javaBaseOptions:
+                    description: java base options override
+                    type: string
+                  javaComponentOptions:
+                    description: java component options
+                    type: string
+                  javaDebugOptions:
+                    description: java debug options override
+                    type: string
+                  javaMaxRAMPercentage:
+                    description: java max RAM percentage override
+                    type: string
+                  javaOptions:
+                    description: java options override
+                    type: string
+                  debug:
+                    description: component debug
+                    type: boolean
+                  resources:
+                    description: component resource configuration
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceAccountName:
+                    description: component serviceAccountName
+                    type: string
+                  dataPersistenceEnabled:
+                    description: component volume mounted as PV
+                    type: boolean
                 type: object
               mediation-baremetal:
                 properties:

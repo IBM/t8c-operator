@@ -19,7 +19,7 @@ spec:
   #  imageUsername: turbouser
   #  imagePassword: turbopassword
     repository: icr.io/cpopen/turbonomic
-    tag: 8.12.5
+    tag: 8.12.6
     externalIP: 10.0.2.15
     externalDbIP: 10.0.2.15
     externalTimescaleDBIP: 10.0.2.15
@@ -52,6 +52,8 @@ spec:
   cloudability:
     enabled: false
   apptio-sftp:
+    enabled: false
+  cloudy-aws-pricing:
     enabled: false
   dynatrace:
     enabled: true

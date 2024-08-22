@@ -115,14 +115,6 @@ spec:
                       pullPolicy:
                         description: component image pull policy
                         type: string
-                  serviceMesh: &serviceMesh
-                    description: Provides istio service mesh options.
-                    type: object
-                    properties:
-                      enabled:
-                        type: boolean
-                        description: If true, the component should be enrolled in istio data plane.
-                    x-kubernetes-preserve-unknown-fields: true
               global:
                 type: object
                 description: Platform configuration options
@@ -503,16 +495,12 @@ spec:
                   enabled:
                     description: Enable nginx ingress
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               openshiftingress:
                 properties:
                   enabled:
                     description: Enable Openshift routes
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               platform:
                 properties:
@@ -532,8 +520,6 @@ spec:
                   enabled:
                     description: Enable kubeturbo for the local k8s cluster
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                   targetConfig:
                     type: object
                     description: Target configuration
@@ -550,8 +536,6 @@ spec:
                   enabled:
                     description: Enable prometurbo for the local prometheus server
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                   targetName:
                     type: string
                     description: Name of the target
@@ -591,8 +575,6 @@ spec:
                   enabled:
                     description: Enable experimental time series data collection.
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
 
               # Configure platform
@@ -609,8 +591,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   persistentVolumeClaim: *persistentVolumeClaim
@@ -635,8 +615,6 @@ spec:
                   enabled:
                     description: Enable db component
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                   annotations:
                     description: component specific pod annotations list
                     type: object
@@ -686,8 +664,6 @@ spec:
                   enabled:
                     description: Enable extractor
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                   enableAwsMsk:
                     description: Enable MSK stream
                     type: boolean
@@ -740,8 +716,6 @@ spec:
                   enabled:
                     description: Enable the Kinesis connector
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                   connector:
                     properties:
                       config:
@@ -762,8 +736,6 @@ spec:
                   enabled:
                     description: Enable metrics processor
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   image:
@@ -781,8 +753,6 @@ spec:
                   enabled:
                     description: Enable metrics processor
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   image:
@@ -797,8 +767,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   persistentVolumeClaim: *persistentVolumeClaim
@@ -831,8 +799,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   persistentVolumeClaim: *persistentVolumeClaim
@@ -872,8 +838,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   image:
                     *imageProperties
                   tolerations:
@@ -908,21 +872,6 @@ spec:
                       URLs, even when nginx is acting as primary ingress. Only http port will
                       be exposed.
                     type: boolean
-                  tlsProtocols:
-                    description: |-
-                      Overrides the TLS protocol versions supported by nginx. Corresponds to to the value of the
-                      ssl_protocols field in the nginx configuration file.
-                    type: string
-                  tlsv2Ciphers:
-                    description: |-
-                      Overrides the TLSv2 ciphers supported by nginx. Corresponds to to the value of the
-                      ssl_ciphers field in the nginx configuration file.
-                    type: string
-                  tlsv3Ciphers:
-                    description: |-
-                      Overrides the TLSv3 ciphers supported by nginx. Corresponds to to the value of the
-                      ssl_conf_command Ciphersuites field in the nginx configuration file.
-                    type: string
                   tunnel:
                     type: object
                     properties:
@@ -943,8 +892,6 @@ spec:
                   enabled:
                     description: Enable postgres backend
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                   annotations:
                     description: component specific pod annotations list
                     type: object
@@ -976,8 +923,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   persistentVolumeClaim: *persistentVolumeClaim
@@ -1022,8 +967,6 @@ spec:
                   enabled:
                     description: Enable timescaledb with postgres backend
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                   annotations:
                     description: component specific pod annotations list
                     type: object
@@ -1053,8 +996,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   persistentVolumeClaim: *persistentVolumeClaim
@@ -1083,8 +1024,6 @@ spec:
                   enabled:
                     description: Enable suspend components
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                   annotations:
                     description: component specific pod annotations list
                     type: object
@@ -1120,8 +1059,6 @@ spec:
                   annotations:
                     description: component specific pod annotations list
                     type: object
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   persistentVolumeClaim: *persistentVolumeClaim
@@ -1153,8 +1090,6 @@ spec:
                 properties:
                   enabled:
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                   mode:
                     type: string
                     description: Set the tunnel mode. 'client' for on-site, 'server' for SaaS
@@ -1338,8 +1273,6 @@ spec:
               telemetry:
                 type: object
                 properties:
-                  serviceMesh:
-                    *serviceMesh
                   image:
                     *imageProperties
                   resources:
@@ -1354,8 +1287,6 @@ spec:
                   enabled:
                     type: boolean
                     description: Whether the Prometheus component(s) should be enabled.
-                  serviceMesh:
-                    *serviceMesh
                   persistentVolumeClaim: *persistentVolumeClaim
                   configmapReload:
                     type: object
@@ -1553,8 +1484,6 @@ spec:
                   enabled:
                     description: Enable hydra
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                   deployment:
                     description: component deployment configuration
                     properties:
@@ -1583,8 +1512,6 @@ spec:
                   enabled:
                     description: Enable prometheus mysql exporter
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                   image:
                     *imageProperties
                   cloudsqlproxy:
@@ -1619,8 +1546,6 @@ spec:
                   enabled:
                     description: Enable grafana
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                   adminPassword:
                     description: Configure grafana admin password
                     type: string
@@ -1638,48 +1563,36 @@ spec:
                   enabled:
                     description: Enable actionscript mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               actionstream-kafka:
                 properties:
                   enabled:
                     description: Enable actionstream-kafka mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               appdynamics:
                 properties:
                   enabled:
                     description: Enable AppDynamics mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               servicenow:
                 properties:
                   enabled:
                     description: Enable ServiceNow mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               aws:
                 properties:
                   enabled:
                     description: Enable AWS mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                   cost:
                     description: Configuration of AWS Cost probe
                     properties:
                       enabled:
                         description: Disable AWS Cost by setting to `false`. By default, it is enabled if AWS is enabled
                         type: boolean
-                      serviceMesh:
-                        *serviceMesh
                     type: object
                 type: object
               awslambda:
@@ -1687,16 +1600,12 @@ spec:
                   enabled:
                     description: Enable AWS Lambda mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               azure:
                 properties:
                   enabled:
                     description: Enable Azure mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                   ea:
                     type: object
                     description: Configuration of Microsoft Enterprise probes
@@ -1709,8 +1618,6 @@ spec:
                       enabled:
                         description: Enable Azure metrics adapter
                         type: boolean
-                      serviceMesh:
-                        *serviceMesh
                     type: object
                 type: object
               baremetal:
@@ -1718,352 +1625,264 @@ spec:
                   enabled:
                     description: Enable baremetal mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               cloudability:
                 properties:
                   enabled:
                     description: Enable Apptio Cloudability mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               cloudy-aws-pricing:
                 properties:
                   enabled:
                     description: Enable Cloudy AWS pricing mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               compellent:
                 properties:
                   enabled:
                     description: Enable Compellent mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               datadog:
                 properties:
                   enabled:
                     description: Enable Datadog mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               dynatrace:
                 properties:
                   enabled:
                     description: Enable Dynatrace mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               flexera:
                 properties:
                   enabled:
                     description: Enable Flexera mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               gcp:
                 properties:
                   enabled:
                     description: Enable GCP mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               hds:
                 properties:
                   enabled:
                     description: Enable Hitachi Data Systems mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               horizon:
                 properties:
                   enabled:
                     description: Enable VMware Horizon mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               hpe3par:
                 properties:
                   enabled:
                     description: Enable HPE 3PAR mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               hyperflex:
                 properties:
                   enabled:
                     description: Enable Hyperflex mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               hyperv:
                 properties:
                   enabled:
                     description: Enable Microsoft HyperV mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               powervm:
                 properties:
                   enabled:
                     description: Enable IBM PowerVM mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               ibmstorage-flashsystem:
                 properties:
                   enabled:
                     description: Enable IBM FlashSystem mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               instana:
                 properties:
                   enabled:
                     description: Enable Instana mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               intersight:
                 properties:
                   enabled:
                     description: Enable Cisco Intersight mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               jboss:
                 properties:
                   enabled:
                     description: Enable JBoss mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               jvm:
                 properties:
                   enabled:
                     description: Enable Jvm mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               mssql:
                 properties:
                   enabled:
                     description: Enable Microsoft SQL Server mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               mysql:
                 properties:
                   enabled:
                     description: Enable MySQL Server mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               netapp:
                 properties:
                   enabled:
                     description: Enable NetApp mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               newrelic:
                 properties:
                   enabled:
                     description: Enable New Relic mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               nutanix:
                 properties:
                   enabled:
                     description: Enable Nutanix mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               oneview:
                 properties:
                   enabled:
                     description: Enable HPE OneView mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               oracle:
                 properties:
                   enabled:
                     description: Enable Pivotal mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               pure:
                 properties:
                   enabled:
                     description: Enable Pure mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               scaleio:
                 properties:
                   enabled:
                     description: Enable EMC ScaleIO mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               snmp:
                 properties:
                   enabled:
                     description: Enable SNMP mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               terraform:
                 properties:
                   enabled:
                     description: Enable Terraform mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               tomcat:
                 properties:
                   enabled:
                     description: Enable Tomcat mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               ucs:
                 properties:
                   enabled:
                     description: Enable Cisco UCS mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               ucsdirector:
                 properties:
                   enabled:
                     description: Enable Cisco UCS Director mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               udt:
                 properties:
                   enabled:
                     description: Enable User Defined Topology mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               vcenter:
                 properties:
                   enabled:
                     description: Enable VMware vCenter mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               vmax:
                 properties:
                   enabled:
                     description: Enable EMC VMAX mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               vmm:
                 properties:
                   enabled:
                     description: Enable Microsoft VMM mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               vplex:
                 properties:
                   enabled:
                     description: Enable EMC VPLEX mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               webhook:
                 properties:
                   enabled:
                     description: Enable Webhook mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               weblogic:
                 properties:
                   enabled:
                     description: Enable WebLogic mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               websphere:
                 properties:
                   enabled:
                     description: Enable WebSphere mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               wmi:
                 properties:
                   enabled:
                     description: Enable WMI mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               xen:
                 properties:
                   enabled:
                     description: Enable Xen mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               xtremio:
                 properties:
                   enabled:
                     description: Enable EMC XtremIO mediation
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
 
               # Resource limits - Core Services
@@ -2075,8 +1894,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -2118,8 +1935,6 @@ spec:
                   enabled:
                     description: Enable UI component
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                   annotations:
                     description: component specific pod annotations list
                     type: object
@@ -2148,8 +1963,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   persistentVolumeClaim: *persistentVolumeClaim
@@ -2195,8 +2008,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   persistentVolumeClaim: *persistentVolumeClaim
@@ -2239,8 +2050,6 @@ spec:
                   enabled:
                     description: Enable client-network service
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   image:
@@ -2253,8 +2062,6 @@ spec:
                   enabled:
                     description: Enable oauth2 service
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   image:
@@ -2265,8 +2072,6 @@ spec:
                   enabled:
                     description: Enable Sustainability service
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                   dbSecretName:
                     *dbComponentProperties
                   annotations:
@@ -2277,55 +2082,6 @@ spec:
                     *componentTolerations
                   env:
                     description: component environment variable
-                    type: array
-                    items:
-                      type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  image:
-                    *imageProperties
-                  javaBaseOptions:
-                    description: java base options override
-                    type: string
-                  javaComponentOptions:
-                    description: java component options
-                    type: string
-                  javaDebugOptions:
-                    description: java debug options override
-                    type: string
-                  javaMaxRAMPercentage:
-                    description: java max RAM percentage override
-                    type: string
-                  javaOptions:
-                    description: java options override
-                    type: string
-                  debug:
-                    description: component debug
-                    type: boolean
-                  resources:
-                    description: component resource configuration
-                    type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  serviceAccountName:
-                    description: component serviceAccountName
-                    type: string
-                type: object
-              cloudy-targets-discovery:
-                properties:
-                  enabled:
-                    description: enable Cloudy Targets Discovery component
-                    type: boolean
-                  serviceMesh:
-                    *serviceMesh
-                  dbSecretName:
-                    *dbComponentProperties
-                  annotations:
-                    description: component specific pod annotations list
-                    type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  tolerations:
-                    *componentTolerations
-                  cldyEnv:
-                    description: environment variables specific to Cloudability components
                     type: array
                     items:
                       type: object
@@ -2371,8 +2127,6 @@ spec:
                   enabled:
                     description: Enable the Cloud Optimizer component
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                   env:
                     description: component environment variable
                     type: array
@@ -2421,8 +2175,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -2467,8 +2219,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -2513,8 +2263,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -2559,8 +2307,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -2606,8 +2352,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -2652,8 +2396,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -2698,8 +2440,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -2744,8 +2484,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -2790,8 +2528,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   persistentVolumeClaim: *persistentVolumeClaim
@@ -2838,8 +2574,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -2868,8 +2602,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   enabled:
@@ -2916,8 +2648,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -2960,8 +2690,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -3004,8 +2732,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -3049,8 +2775,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -3074,8 +2798,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   persistentVolumeClaim: *persistentVolumeClaim
@@ -3122,8 +2844,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -3166,8 +2886,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   persistentVolumeClaim: *persistentVolumeClaim
@@ -3214,8 +2932,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -3258,8 +2974,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -3302,8 +3016,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -3346,8 +3058,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -3390,8 +3100,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -3434,8 +3142,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -3478,8 +3184,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -3522,8 +3226,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -3566,8 +3268,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -3610,8 +3310,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -3654,8 +3352,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -3701,8 +3397,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -3834,8 +3528,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -3878,8 +3570,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   persistentVolumeClaim: *persistentVolumeClaim
@@ -3926,8 +3616,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -3970,8 +3658,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -4014,8 +3700,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -4058,8 +3742,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -4102,8 +3784,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -4146,8 +3826,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -4190,8 +3868,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -4234,8 +3910,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -4278,8 +3952,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -4322,8 +3994,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -4366,8 +4036,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -4410,8 +4078,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -4454,8 +4120,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -4498,8 +4162,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -4547,8 +4209,6 @@ spec:
                           use winrm-proxy server to encrypt and decrypt all the messages
                           sent over http
                         type: boolean
-                      serviceMesh:
-                        *serviceMesh
                       image:
                         *imageProperties
                       env:
@@ -4579,8 +4239,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -4622,8 +4280,6 @@ spec:
                   annotations:
                     description: component specific pod annotations list
                     type: object
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   image:
@@ -4655,8 +4311,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -4699,8 +4353,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -4743,8 +4395,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -4787,8 +4437,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -4831,8 +4479,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -4875,8 +4521,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -4919,8 +4563,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -4963,8 +4605,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -5007,8 +4647,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -5051,8 +4689,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -5095,8 +4731,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -5139,8 +4773,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -5183,8 +4815,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -5227,8 +4857,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -5271,8 +4899,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -5315,8 +4941,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -5359,8 +4983,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -5403,8 +5025,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -5447,8 +5067,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -5491,8 +5109,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -5535,8 +5151,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -5580,8 +5194,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -5623,8 +5235,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -5667,8 +5277,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -5711,8 +5319,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -5760,8 +5366,6 @@ spec:
                           use winrm-proxy server to encrypt and decrypt all the messages
                           sent over http
                         type: boolean
-                      serviceMesh:
-                        *serviceMesh
                       image:
                         *imageProperties
                       env:
@@ -5792,8 +5396,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -5836,8 +5438,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -5880,8 +5480,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -5924,8 +5522,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -5968,8 +5564,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -6012,8 +5606,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -6056,8 +5648,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -6100,8 +5690,6 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:

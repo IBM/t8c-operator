@@ -783,7 +783,7 @@ spec:
                     type: string
                   debug:
                     description: component debug
-                    type: boolean 
+                    type: boolean
                   serviceMesh:
                     *serviceMesh
                   tolerations:
@@ -1504,6 +1504,12 @@ spec:
                         *imageProperties
                       tolerations:
                         *componentTolerations
+                      env:
+                        description: component environment variable
+                        type: array
+                        items:
+                          type: object
+                        x-kubernetes-preserve-unknown-fields: true
                       configManager:
                         type: object
                         description: 'Configuration for Prometheus Configuration Manager sidecar
@@ -1617,9 +1623,16 @@ spec:
                         type: object
                         x-kubernetes-preserve-unknown-fields: true
                     type: object
+                  collectors:
+                    description: The metric collectors enabled in the exporter
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
                   mysql:
                     description: Enable prometheus mysql exporter
                     properties:
+                      existingSecret:
+                        description: If set, the kubernetes secret name containing database credentials
+                        type: string
                       user:
                         description: username for the mysql exporter
                         type: string
@@ -2176,6 +2189,9 @@ spec:
                     description: component specific pod annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
+                  replicaCount:
+                    description: number of api pods
+                    type: integer
                   serviceMesh:
                     *serviceMesh
                   tolerations:

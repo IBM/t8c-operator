@@ -91,10 +91,13 @@ rules:
   - networking.k8s.io
   resources:
   - ingresses
+  - networkpolicies
   verbs:
   - get
   - list
   - watch
+  - create
+  - patch
 - apiGroups:
   - cert-manager.io
   resources:

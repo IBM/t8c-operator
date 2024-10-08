@@ -1142,6 +1142,9 @@ spec:
                   annotations:
                     description: component specific pod annotations list
                     type: object
+                  enabled:
+                    type: boolean
+                    description: Whether the Redis component(s) should be enabled.
                   serviceMesh:
                     *serviceMesh
                   tolerations:

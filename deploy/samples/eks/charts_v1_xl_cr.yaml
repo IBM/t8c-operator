@@ -19,7 +19,7 @@ spec:
     #  imageUsername: turbouser
     #  imagePassword: turbopassword
     repository: icr.io/cpopen/turbonomic
-    tag: 8.14.0
+    tag: 8.14.1
     externalDbIP: 10.0.2.15
     # provide the correct annotations based on the LB you want and the properties you want
     ingress:

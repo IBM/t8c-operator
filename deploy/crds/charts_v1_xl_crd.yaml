@@ -200,7 +200,10 @@ spec:
                     description: IP address for external Redis server
                     type: string
                   externalSyslog:
-                    description: DNS name for external syslog server
+                    description: DNS name and port for external syslog server
+                    type: string
+                  externalAuditLog:
+                    description: DNS name and port for external auditlog server
                     type: string
                   nodeSelector:
                     description: Global pod nodeSelector list
@@ -306,6 +309,21 @@ spec:
                   elk:
                     description: Install ELK stack
                     type: boolean
+                  deploymentMode:
+                    type: string
+                    description: Deployment Mode for Turbonomic instance
+                  hostingMode:
+                    type: string
+                    description: Whether the Turbonomic instance is managed by the client or IBM
+                  hostingProvider:
+                    type: string
+                    description: Cloud Provider on which Turbonomic instance is running
+                  hostingPlatform:
+                    type: string
+                    description: Information about the offering by the hosting provider
+                  hostingRegion:
+                    type: string
+                    description: Hosting Region in which the component is deployed
                   telemetry:
                     type: object
                     description: 'Configuration options related to collecting telemetry from the XL
@@ -1496,13 +1514,19 @@ spec:
                                 description: The scrape interval for XL components.
                               mediationMetricNameRegex:
                                 type: string
-                                description: A regex of the __name__ label to match again the xl-mediation scrape job.
+                                description: A regex of the metric names to scrape from the xl-mediation scrape job.
                               mysqlMetricNameRegex:
                                 type: string
-                                description: A regex of the __name__ label to match again the xl-mysql scrape job.
+                                description: A regex of the metric names to scrape from the xl-mysql scrape job.
+                              platformServiceNameRegex:
+                                type: string
+                                description: A regex of the k8s service names to scrape from the xl scrape job.
                               platformMetricNameRegex:
                                 type: string
-                                description: A regex of the __name__ label to match again the xl scrape job.
+                                description: A regex of the metric names to scrape from the xl scrape job.
+                              cloudyMetricNameRegex:
+                                type: string
+                                description: A regex of the cloudy metric names to scrape from the xl scrape job.
                       image:
                         *imageProperties
                       tolerations:

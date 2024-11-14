@@ -2037,14 +2037,6 @@ spec:
                   serviceMesh:
                     *serviceMesh
                 type: object
-              ucsdirector:
-                properties:
-                  enabled:
-                    description: Enable Cisco UCS Director mediation
-                    type: boolean
-                  serviceMesh:
-                    *serviceMesh
-                type: object
               udt:
                 properties:
                   enabled:
@@ -5603,50 +5595,6 @@ spec:
                     type: string
                 type: object
               mediation-ucs:
-                properties:
-                  annotations:
-                    description: component specific pod annotations list
-                    type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
-                  tolerations:
-                    *componentTolerations
-                  env:
-                    description: component environment variable
-                    type: array
-                    items:
-                      type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  image:
-                    *imageProperties
-                  javaBaseOptions:
-                    description: java base options override
-                    type: string
-                  javaComponentOptions:
-                    description: java component options
-                    type: string
-                  javaDebugOptions:
-                    description: java debug options override
-                    type: string
-                  javaMaxRAMPercentage:
-                    description: java max RAM percentage override
-                    type: string
-                  javaOptions:
-                    description: java options override
-                    type: string
-                  debug:
-                    description: component debug
-                    type: boolean
-                  resources:
-                    description: component resource configuration
-                    type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  serviceAccountName:
-                    description: component serviceAccountName
-                    type: string
-                type: object
-              mediation-ucsdirector:
                 properties:
                   annotations:
                     description: component specific pod annotations list

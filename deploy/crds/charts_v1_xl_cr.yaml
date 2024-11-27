@@ -19,7 +19,7 @@ spec:
   #  imageUsername: turbouser
   #  imagePassword: turbopassword
     repository: icr.io/cpopen/turbonomic
-    tag: 8.14.2
+    tag: 8.14.3
     externalIP: 10.0.2.15
     externalDbIP: 10.0.2.15
     externalTimescaleDBIP: 10.0.2.15
@@ -45,6 +45,8 @@ spec:
     enabled: true
   aws:
     enabled: true
+    organization:
+      enabled: false
   azure:
     enabled: true
     metrics:

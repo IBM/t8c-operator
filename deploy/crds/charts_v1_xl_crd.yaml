@@ -1743,6 +1743,12 @@ spec:
                       serviceMesh:
                         *serviceMesh
                     type: object
+                  organization:
+                    properties:
+                      enabled:
+                        description: Enable AWS ORGANIZATION mediation
+                        type: boolean
+                    type: object
                 type: object
               awslambda:
                 properties:
@@ -3359,6 +3365,38 @@ spec:
                     description: component serviceAccountName
                     type: string
                 type: object
+              mediation-awsorganization:
+                properties:
+                  annotations:
+                    description: component specific pod annotations list
+                    type: object
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  image:
+                    *imageProperties
+                  javaComponentOptions:
+                    description: java component options
+                    type: string
+                  debug:
+                    description: component debug
+                    type: boolean
+                  resources:
+                    description: component resource configuration
+                    properties:
+                      limits:
+                        description: component limits
+                        properties:
+                          memory:
+                            description: component memory limits
+                            type: string
+                        type: object
+                    type: object
+                  serviceAccountName:
+                    description: component serviceAccountName
+                    type: string
+                type: object
               mediation-azure:
                 properties:
                   annotations:
@@ -4426,6 +4464,50 @@ spec:
                     type: string
                 type: object
               mediation-gcpinfra:
+                properties:
+                  annotations:
+                    description: component specific pod annotations list
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  env:
+                    description: component environment variable
+                    type: array
+                    items:
+                      type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  image:
+                    *imageProperties
+                  javaBaseOptions:
+                    description: java base options override
+                    type: string
+                  javaComponentOptions:
+                    description: java component options
+                    type: string
+                  javaDebugOptions:
+                    description: java debug options override
+                    type: string
+                  javaMaxRAMPercentage:
+                    description: java max RAM percentage override
+                    type: string
+                  javaOptions:
+                    description: java options override
+                    type: string
+                  debug:
+                    description: component debug
+                    type: boolean
+                  resources:
+                    description: component resource configuration
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceAccountName:
+                    description: component serviceAccountName
+                    type: string
+                type: object
+              mediation-github:
                 properties:
                   annotations:
                     description: component specific pod annotations list

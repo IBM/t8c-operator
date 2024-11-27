@@ -11,7 +11,7 @@ spec:
   # This is a YAML-formatted file.
   # Declare variables to be passed into your templates.
 
-  # Any changes run : kubectl apply -f deploy/crds/charts_v1_xl_cr.yaml -n turbonomic
+  # Any changes run : kubectl apply -f deploy/crds/charts_v1alpha1_xl_cr.yaml -n turbonomic
 
   # Global settings
   global:
@@ -20,26 +20,20 @@ spec:
     #  imagePassword: turbopassword
     repository: icr.io/cpopen/turbonomic
     tag: 8.14.3
+    # If using an external database server with Turbonomic, then
+    # update the externalDbIP with the IP address of the external DB.
     externalDbIP: 10.0.2.15
-    # provide the correct annotations based on the LB you want and the properties you want
-    ingress:
-      annotations:
-        service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
-        service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
-        service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
-        service.beta.kubernetes.io/aws-load-balancer-type: nlb
-    enableExternalSecrets: false
     # To use the default storage class in the deployment, remove the storageClassName property.
     # To specify a non-default storage class, include the storageClassName property as shown below.
-    storageClassName: gp3-new
+    storageClassName: standard-rwo-retain
     # Hosting modes for component: self-hosted, saas
     #hostingMode: self-hosted
-    # Hosting Provider for a component: aws
-    hostingProvider: aws
-    # Offering by the hosting provider: eks
-    hostingPlatform: eks
-    # Hosting Region of a component: us-east-1 etc
-    #hostingRegion: us-east-1
+    # Hosting Provider for a component: gcp
+    hostingProvider: gcp
+    # Offering by the hosting provider: gke
+    hostingPlatform: gke
+    # Hosting Region of a component: us-central1 etc
+    #hostingRegion: us-central1
 
   # Component selector - Probes can be enabled based on the requirement
   actionscript:
@@ -48,16 +42,16 @@ spec:
     enabled: false
   appdynamics:
     enabled: false
-  appinsights:
-    enabled: false
   aws:
-    enabled: true
+    enabled: false
   azure:
     enabled: false
+    metrics:
+      enabled: false
   dynatrace:
     enabled: false
   gcp:
-    enabled: false
+    enabled: true
   hpe3par:
     enabled: false
   horizon:
@@ -74,8 +68,6 @@ spec:
     enabled: false
   nutanix:
     enabled: false
-  nginx:
-    nginxIsPrimaryIngress: true
   oneview:
     enabled: false
   prometheus-mysql-exporter:
@@ -93,7 +85,7 @@ spec:
   ucs:
     enabled: false
   vcenter:
-    enabled: false
+    enabled: true
   vmax:
     enabled: false
   vmm:
@@ -129,4 +121,6 @@ spec:
   datadog:
     enabled: false
   powervm:
+    enabled: false
+  metrics-processor:
     enabled: false

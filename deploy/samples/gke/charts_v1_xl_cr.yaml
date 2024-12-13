@@ -19,7 +19,7 @@ spec:
     #  imageUsername: turbouser
     #  imagePassword: turbopassword
     repository: icr.io/cpopen/turbonomic
-    tag: 8.14.3
+    tag: 8.14.4
     # If using an external database server with Turbonomic, then
     # update the externalDbIP with the IP address of the external DB.
     externalDbIP: 10.0.2.15

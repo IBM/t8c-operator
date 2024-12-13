@@ -312,6 +312,9 @@ spec:
                   deploymentMode:
                     type: string
                     description: Deployment Mode for Turbonomic instance
+                  enableDerivedAwsCredentialPath:
+                    type: boolean
+                    description: Enable the derived AWS target credential path
                   hostingMode:
                     type: string
                     description: Whether the Turbonomic instance is managed by the client or IBM
@@ -1157,6 +1160,15 @@ spec:
                 type: object
               redis:
                 properties:
+                  config:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  replicaCount:
+                    description: number of redis cluster nodes
+                    type: integer
+                    x-kubernetes-validations:
+                      - rule: "self != 2"
+                        message: "Redis Cluster requires at least 3 master nodes"
                   annotations:
                     description: component specific pod annotations list
                     type: object
@@ -1728,6 +1740,7 @@ spec:
                     *serviceMesh
                 type: object
               aws:
+                x-kubernetes-preserve-unknown-fields: true
                 properties:
                   enabled:
                     description: Enable AWS mediation
@@ -1743,12 +1756,6 @@ spec:
                       serviceMesh:
                         *serviceMesh
                     type: object
-                  organization:
-                    properties:
-                      enabled:
-                        description: Enable AWS ORGANIZATION mediation
-                        type: boolean
-                    type: object
                 type: object
               awslambda:
                 properties:
@@ -1759,6 +1766,7 @@ spec:
                     *serviceMesh
                 type: object
               azure:
+                x-kubernetes-preserve-unknown-fields: true
                 properties:
                   enabled:
                     description: Enable Azure mediation
@@ -1772,14 +1780,6 @@ spec:
                       enabled:
                         description: Disable EA by setting to `false`. By default, it is enabled if Azure is enabled
                         type: boolean
-                  metrics:
-                    properties:
-                      enabled:
-                        description: Enable Azure metrics adapter
-                        type: boolean
-                      serviceMesh:
-                        *serviceMesh
-                    type: object
                 type: object
               baremetal:
                 properties:

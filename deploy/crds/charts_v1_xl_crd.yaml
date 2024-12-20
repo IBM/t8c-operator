@@ -312,9 +312,6 @@ spec:
                   deploymentMode:
                     type: string
                     description: Deployment Mode for Turbonomic instance
-                  enableDerivedAwsCredentialPath:
-                    type: boolean
-                    description: Enable the derived AWS target credential path
                   hostingMode:
                     type: string
                     description: Whether the Turbonomic instance is managed by the client or IBM

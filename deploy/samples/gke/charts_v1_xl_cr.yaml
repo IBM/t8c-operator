@@ -19,10 +19,17 @@ spec:
     #  imageUsername: turbouser
     #  imagePassword: turbopassword
     repository: icr.io/cpopen/turbonomic
-    tag: 8.14.4
+    tag: 8.14.5
     # If using an external database server with Turbonomic, then
-    # update the externalDbIP with the IP address of the external DB.
+    # specify either the externalDbIP (with the IP address) or
+    # the externalDBName (with fully qualified domain name (FQDN)) of the external DB.
     externalDbIP: 10.0.2.15
+    # externalDBName:
+
+    # provide the correct annotations based on the LB you want and the properties you want
+    # ingress:
+      # annotations:
+        # networking.gke.io/load-balancer-type: "Internal"
     # To use the default storage class in the deployment, remove the storageClassName property.
     # To specify a non-default storage class, include the storageClassName property as shown below.
     storageClassName: standard-rwo-retain

@@ -1835,14 +1835,6 @@ spec:
                   serviceMesh:
                     *serviceMesh
                 type: object
-              jboss:
-                properties:
-                  enabled:
-                    description: Enable JBoss mediation
-                    type: boolean
-                  serviceMesh:
-                    *serviceMesh
-                type: object
               jvm:
                 properties:
                   enabled:
@@ -2210,6 +2202,9 @@ spec:
                     *componentTolerations
                   image:
                     *imageProperties
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
                 type: object
               sustainability:
                 properties:
@@ -4407,41 +4402,6 @@ spec:
                     type: string
                 type: object
               mediation-intersightucs:
-                properties:
-                  annotations:
-                    type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
-                  tolerations:
-                    *componentTolerations
-                  env:
-                    description: environment variables
-                    type: array
-                    items:
-                      type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  image:
-                    *imageProperties
-                  javaBaseOptions:
-                    type: string
-                  javaComponentOptions:
-                    type: string
-                  javaDebugOptions:
-                    type: string
-                  javaMaxRAMPercentage:
-                    type: string
-                  javaOptions:
-                    type: string
-                  debug:
-                    type: boolean
-                  resources:
-                    type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  serviceAccountName:
-                    type: string
-                type: object
-              mediation-jboss:
                 properties:
                   annotations:
                     type: object

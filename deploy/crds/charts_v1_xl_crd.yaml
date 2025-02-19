@@ -1462,6 +1462,9 @@ spec:
                               cloudyMetricNameRegex:
                                 type: string
                                 description: A regex of the cloudy metric names to scrape from the xl scrape job
+                              redisMetricNameRegex:
+                                type: string
+                                description: A regex of metrics to scrape from the redis_exporter sidecar in the redis deployment
                       image:
                         *imageProperties
                       tolerations:
@@ -1525,6 +1528,9 @@ spec:
                                 type: string
                               productPlanType:
                                 description: subscription or trial
+                                type: string
+                              sapSiteNumber:
+                                description: SAPSiteID identifies PAID SaaS deployments
                                 type: string
                             x-kubernetes-preserve-unknown-fields: true
                       resources:
@@ -2138,6 +2144,8 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                   serviceAccountName:
                     type: string
+                  createApiRole:
+                    type: boolean
                 type: object
               auth:
                 properties:
@@ -2693,6 +2701,53 @@ spec:
                   serviceAccountName:
                     type: string
                 type: object
+              cas-training:
+                type: object
+                description: Configuration for coordinated-autoscaling
+                properties:
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  tolerations:
+                    *componentTolerations
+                  enabled:
+                    type: boolean
+                  serviceAccountName:
+                    type: string
+                  casDataFeeder:
+                    type: object
+                    description: Configuration for coordinated-autoscaling data feeder
+                    properties:
+                      image:
+                        *imageProperties
+                      resources:
+                        type: object
+                        x-kubernetes-preserve-unknown-fields: true
+                      logLevel:
+                        type: string
+                      javaBaseOptions:
+                        type: string
+                      javaComponentOptions:
+                        type: string
+                      javaDebugOptions:
+                        type: string
+                      javaMaxRAMPercentage:
+                        type: string
+                      javaOptions:
+                        type: string
+                      debug:
+                        type: boolean
+                  casTraining:
+                    type: object
+                    description: Configuration for coordinated-autoscaling training
+                    properties:
+                      image:
+                        *imageProperties
+                      resources:
+                        type: object
+                        x-kubernetes-preserve-unknown-fields: true
+                      logLevel:
+                        type: string
               actions-history:
                 description: component for tracking action state change
                 type: object

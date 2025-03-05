@@ -451,6 +451,9 @@ spec:
                           enabled:
                             type: boolean
                             description: 'Whether to enable remote writing to a centralized Prometheus server for monitoring'
+                          # Sets the AWS access and secret keys in the prometheus server deployment.
+                          injectRemoteWriteCredentials:
+                            type: boolean
                           prometheusUrl:
                             type: string
                             description: 'The prometheus URL. This is expected to be an AWS managed Prometheus endpoint.'
@@ -2274,6 +2277,40 @@ spec:
                     items:
                       type: object
                     x-kubernetes-preserve-unknown-fields: true
+                  image:
+                    *imageProperties
+                  javaBaseOptions:
+                    type: string
+                  javaComponentOptions:
+                    type: string
+                  javaDebugOptions:
+                    type: string
+                  javaMaxRAMPercentage:
+                    type: string
+                  javaOptions:
+                    type: string
+                  debug:
+                    type: boolean
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceAccountName:
+                    type: string
+                type: object
+              cloudy-actions:
+                properties:
+                  enabled:
+                    description: Enables the Cloudy Actions component
+                    type: boolean
+                  serviceMesh:
+                    *serviceMesh
+                  dbSecretName:
+                    *dbComponentProperties
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  tolerations:
+                    *componentTolerations
                   image:
                     *imageProperties
                   javaBaseOptions:

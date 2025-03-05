@@ -25,24 +25,16 @@ spec:
     # the externalDBName (with fully qualified domain name (FQDN)) of the external DB.
     externalDbIP: 10.0.2.15
     # externalDBName:
-
+    
     # provide the correct annotations based on the LB you want and the properties you want
     # ingress:
       # annotations:
-        # networking.gke.io/load-balancer-type: "Internal"
+        # service.beta.kubernetes.io/azure-load-balancer-internal: "true"
     # To use the default storage class in the deployment, remove the storageClassName property.
     # To specify a non-default storage class, include the storageClassName property as shown below.
-    storageClassName: standard-rwo-retain
-    # Hosting modes for component: self-hosted, saas
-    #hostingMode: self-hosted
-    # Hosting Provider for a component: gcp
-    hostingProvider: gcp
-    # Offering by the hosting provider: gke
-    hostingPlatform: gke
-    # Hosting Region of a component: us-central1 etc
-    #hostingRegion: us-central1
+    storageClassName: managed-csi-retain
 
-  # Component selector - Probes can be enabled based on the requirement
+  # Component selector - Probes
   actionscript:
     enabled: false
   actionstream-kafka:
@@ -52,13 +44,11 @@ spec:
   aws:
     enabled: false
   azure:
-    enabled: false
-    metrics:
-      enabled: false
+    enabled: true
   dynatrace:
     enabled: false
   gcp:
-    enabled: true
+    enabled: false
   hpe3par:
     enabled: false
   horizon:

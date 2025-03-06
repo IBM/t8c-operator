@@ -21,7 +21,7 @@ spec:
       serviceAccountName: t8c-operator
       containers:
       - name: t8c-operator
-        image: {{ .Values.image.registryURL }}:{{ .Values.image.operatorVersion }}
+        image: {{ .Values.image.registryURL | quote }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
         - name: WATCH_NAMESPACE
@@ -45,3 +45,5 @@ spec:
       volumes:
       - name: operator-tmpfs0
         emptyDir: {}
+
+        

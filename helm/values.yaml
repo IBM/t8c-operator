@@ -1,12 +1,25 @@
 image:
-  registryURL: icr.io/cpopen/t8c-operator
-  operatorVersion: 42.74
+  registryURL: icr.io/cpopen/t8c-operator:42.74
   pullPolicy: IfNotPresent
 
 crImage:
   repositoryURL: icr.io/cpopen/turbonomic
   tag: 8.15.2
   externalDbIP: 10.0.2.15
+
+hosting:
+  hostingMode: self-hosted
+  hostingProvider: gcp
+  hostingPlatform: gke
+  hostingRegion: us-east1
+
+# leaving this unset omits it from the rendered config
+storageClassName:
+
+# set any annotations to the ingress in the normal yaml format
+# omitting annotations removes the ingress spec entirely from the chat
+ingress:
+  annotations:
 
 # This block will be reproduced exactly in the CR config
 # you can add new flags to it and it will put them in the right place

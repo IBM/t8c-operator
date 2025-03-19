@@ -118,6 +118,20 @@ spec:
                 description: Platform configuration options
                 x-kubernetes-preserve-unknown-fields: true
                 properties:
+                  # Configuration options for connecting to a shared Cloud Object Store.
+                  # This store can be used for a variety of purposes, but we likely want to
+                  # share it across all our services and use-cases since there are often
+                  # resource limits in public cloud providers.
+                  cloudObjectStorage:
+                    type: object
+                    properties:
+                      # ID of cloud storage container (e.g. an S3 bucket).
+                      dataStoreId:
+                        type: string
+                      # ID of the role that should authorize the in-cluster k8s service account
+                      # to for this object store (e.g. an AWS Role ARN)
+                      roleId:
+                        type: string
                   dbSecretName:
                     *dbComponentProperties
                   registry:
@@ -2330,6 +2344,8 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                   serviceAccountName:
                     type: string
+                  createServiceAccount:
+                    type: boolean
                 type: object
               cloud-optimizer:
                 properties:
@@ -3724,6 +3740,8 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                   serviceAccountName:
                     type: string
+                  createServiceAccount:
+                    type: boolean
                   dataPersistenceEnabled:
                     description: component volume mounted as PV
                     type: boolean

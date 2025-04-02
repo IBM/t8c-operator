@@ -128,6 +128,9 @@ spec:
                       # ID of cloud storage container (e.g. an S3 bucket).
                       dataStoreId:
                         type: string
+                      # Region where the data store lives, if applicable.
+                      dataStoreRegion:
+                        type: string
                       # ID of the role that should authorize the in-cluster k8s service account
                       # to for this object store (e.g. an AWS Role ARN)
                       roleId:
@@ -231,6 +234,35 @@ spec:
                     description: Global service annotations list
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
+                  # NOTE: this service mesh definition is similar to the one defined by the
+                  # anchor (&serviceMesh) above, but I opted to NOT update the anchor with all the
+                  # properties here due to the last-applied-configuration annotation size limit
+                  # in k8s. If I put all the properties in this serviceMesh definition on the
+                  # anchored one, these properties would get copied to all 170+ dereferences of
+                  # the anchor, meaning the JSON size of the CRD would grow -significantly-.
+                  # We shouldn't be limited to this size, but since many of our workflows use
+                  # kubectl apply (rather than replace), we have to be careful of this for now.
+                  serviceMesh:
+                    type: object
+                    properties:
+                      enabled:
+                        type: boolean
+                      authorizationPolicies:
+                        type: object
+                        properties:
+                          # Defines which k8s principal should be allowed access to internal
+                          # turbo services.
+                          allowedPrincipal:
+                            type: string
+                          # If enabled, then create authorization policies that restrict
+                          # incoming, outgoing namespace communication apart from defined rules.
+                          enabled:
+                            type: boolean
+                          # If enabled, create the authorization policies, but only do a dry-run,
+                          # meaning the policies aren't enforced, but access approvals and denials
+                          # are logged for diagnostic purposes.
+                          dryRun:
+                            type: boolean
                   serviceLabels:
                     description: Global service labels list
                     type: object
@@ -1740,10 +1772,10 @@ spec:
                   serviceMesh:
                     *serviceMesh
                 type: object
-              cloudy-cost-api:
+              cloudy-cost:
                 properties:
                   enabled:
-                    description: Enable Cloudy cost api
+                    description: Enable Cloudy cost
                     type: boolean
                 type: object
               compellent:
@@ -2347,6 +2379,137 @@ spec:
                   createServiceAccount:
                     type: boolean
                 type: object
+              cloudy-identity:
+                properties:
+                  enabled:
+                    description: Enables the Cloudy Identity component
+                    type: boolean
+                  serviceMesh:
+                    *serviceMesh
+                  dbSecretName:
+                    *dbComponentProperties
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  tolerations:
+                    *componentTolerations
+                  image:
+                    *imageProperties
+                  javaBaseOptions:
+                    type: string
+                  javaComponentOptions:
+                    type: string
+                  javaDebugOptions:
+                    type: string
+                  javaMaxRAMPercentage:
+                    type: string
+                  javaOptions:
+                    type: string
+                  debug:
+                    type: boolean
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceAccountName:
+                    type: string
+                  createServiceAccount:
+                    type: boolean
+                type: object
+              container-cost-extractor:
+                type: object
+                properties:
+                  enabled:
+                    description: Enables the Container cost extractor component
+                    type: boolean
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  env:
+                    type: array
+                    items:
+                      type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  image:
+                    *imageProperties
+                  javaBaseOptions:
+                    type: string
+                  javaComponentOptions:
+                    type: string
+                  javaDebugOptions:
+                    type: string
+                  javaMaxRAMPercentage:
+                    type: string
+                  javaOptions:
+                    type: string
+                  debug:
+                    type: boolean
+                  serviceAccountName:
+                    type: string
+                  createServiceAccount:
+                    type: boolean
+                  startingDeadlineSeconds:
+                    type: number
+                  restartPolicy:
+                    type: string
+                  killSidecarContainer:
+                    type: boolean
+                  cloudyApiConfig:
+                    type: object
+                    properties:
+                      cloudyServiceHost:
+                        type: string
+                      apiBasePath:
+                        type: string
+                      protocol:
+                        type: string
+                      waitTimeForQueryExportResult:
+                        type: string
+                      timeSpanInDays:
+                        type: string
+                      exportMetricsValues:
+                        type: string
+              container-action-cost:
+                type: object
+                properties:
+                  enabled:
+                    description: Enables the container action cost component
+                    type: boolean
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  env:
+                    type: array
+                    items:
+                      type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  image:
+                    *imageProperties
+                  javaBaseOptions:
+                    type: string
+                  javaComponentOptions:
+                    type: string
+                  javaDebugOptions:
+                    type: string
+                  javaMaxRAMPercentage:
+                    type: string
+                  javaOptions:
+                    type: string
+                  debug:
+                    type: boolean
+                  serviceAccountName:
+                    type: string
+                  createServiceAccount:
+                    type: boolean
+                  restartPolicy:
+                    type: string
+                  replicas:
+                    type: number
               cloud-optimizer:
                 properties:
                   dbSecretName:
@@ -2754,6 +2917,26 @@ spec:
                   serviceAccountName:
                     type: string
                 type: object
+              cas-inferencing:
+                type: object
+                description: Configuration for coordinated-autoscaling inferencing
+                properties:
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  tolerations:
+                    *componentTolerations
+                  enabled:
+                    type: boolean
+                  serviceAccountName:
+                    type: string
+                  image:
+                    *imageProperties
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  logLevel:
+                    type: string
               cas-training:
                 type: object
                 description: Configuration for coordinated-autoscaling

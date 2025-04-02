@@ -65,6 +65,7 @@ rules:
   - batch
   resources:
   - jobs
+  - cronjobs
   verbs:
   - '*'
 - apiGroups:
@@ -87,6 +88,18 @@ rules:
   - sidecars
   verbs:
   - '*'
+- apiGroups:
+  - security.istio.io
+  resources:
+  - authorizationpolicies
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - patch
+  - delete
+  - update
 - apiGroups:
   - networking.k8s.io
   resources:

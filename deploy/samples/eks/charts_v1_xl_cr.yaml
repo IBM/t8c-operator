@@ -19,7 +19,7 @@ spec:
     #  imageUsername: turbouser
     #  imagePassword: turbopassword
     repository: icr.io/cpopen/turbonomic
-    tag: 8.15.4
+    tag: 8.15.5
     # If using an external database server with Turbonomic, then
     # specify either the externalDbIP (with the IP address) or
     # the externalDBName (with fully qualified domain name (FQDN)) of the external DB.

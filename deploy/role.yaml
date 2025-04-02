@@ -60,9 +60,22 @@ rules:
   verbs:
   - '*'
 - apiGroups:
+  - keda.sh
+  resources:
+  - scaledjobs
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - patch
+  - delete
+  - update
+- apiGroups:
   - batch
   resources:
   - jobs
+  - cronjobs
   verbs:
   - '*'
 - apiGroups:
@@ -85,6 +98,18 @@ rules:
   - sidecars
   verbs:
   - '*'
+- apiGroups:
+  - security.istio.io
+  resources:
+  - authorizationpolicies
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - patch
+  - delete
+  - update
 - apiGroups:
   - networking.k8s.io
   resources:

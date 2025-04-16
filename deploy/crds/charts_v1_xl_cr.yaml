@@ -19,7 +19,7 @@ spec:
   #  imageUsername: turbouser
   #  imagePassword: turbopassword
     repository: icr.io/cpopen/turbonomic
-    tag: 8.15.5
+    tag: 8.15.6
     externalIP: 10.0.2.15
     externalDbIP: 10.0.2.15
     externalTimescaleDBIP: 10.0.2.15
@@ -28,13 +28,13 @@ spec:
   grafana:
     # Grafana is disabled by default. To enable it, uncomment:
     enabled: false
-    adminPassword: admin
+    adminPassword: passwordPlaceholder
     grafana.ini:
       database:
         # Store data in sqlite3 (no persistence across restarts) by default.
         # To persist, uncomment:
         type: postgres
-        password: grafana
+        password: passwordPlaceholder
 
   # Component selector - Probes
   actionscript:

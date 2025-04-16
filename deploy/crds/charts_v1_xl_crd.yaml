@@ -89,6 +89,17 @@ spec:
                       storageClassName:
                         description: StorageClassName to be used for PVCs
                         type: string
+                  ephemeralVolume: &ephemeralVolume
+                    type: object
+                    properties:
+                      enabled:
+                        type: boolean
+                      requestSize:
+                        type: string
+                      limitSize:
+                        type: string
+                      storageClassName:
+                        type: string
                   storageClassName: &storageClassName
                     description: StorageClassName to be used for PVCs
                     type: string
@@ -1151,6 +1162,8 @@ spec:
                           - "notice"
                           - "verbose"
                           - "debug"
+                      lua-time-limit:
+                        type: integer
                       port:
                         type: integer
                       protected-mode:
@@ -3209,6 +3222,8 @@ spec:
                     items:
                       type: object
                     x-kubernetes-preserve-unknown-fields: true
+                  ephemeralVolume:
+                    *ephemeralVolume
                   image:
                     *imageProperties
                   javaBaseOptions:

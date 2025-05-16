@@ -89,6 +89,12 @@ spec:
                       storageClassName:
                         description: StorageClassName to be used for PVCs
                         type: string
+                  persistence: &persistence
+                    type: object
+                    properties:
+                      size:
+                        description: persistent volume size
+                        type: string
                   ephemeralVolume: &ephemeralVolume
                     type: object
                     properties:
@@ -557,7 +563,23 @@ spec:
                                     capacity:
                                       description: Number of samples queued in memory per shard before blocking reading from the write-ahead log
                                       type: integer
-
+                  redis:
+                    type: object
+                    properties:
+                      passwordSecret:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          key:
+                            type: string
+                  containerCost:
+                    type: object
+                    description: configurations across the container cost related components
+                    properties:
+                      cloudyCostLookBackPeriodInDays:
+                        description: Unified lookback period for container-cost-extractor,container-action-cost,cloudy-actions and action-orchestrator
+                        type: integer
               # Enable Platform
               nginxingress:
                 properties:
@@ -652,12 +674,7 @@ spec:
               # Configure platform
               consul:
                 properties:
-                  persistence:
-                    properties:
-                      size:
-                        description: consul persistent volume size
-                        type: string
-                    type: object
+                  persistence: *persistence
                   annotations:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
@@ -699,13 +716,7 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                   image:
                     *imageProperties
-                  persistence:
-                    description: MariaDB persistence options
-                    properties:
-                      size:
-                        description: MariaDB persistent volume size
-                        type: string
-                    type: object
+                  persistence: *persistence
                   resources:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
@@ -845,13 +856,7 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                   image:
                     *imageProperties
-                  persistence:
-                    description: persistence options
-                    properties:
-                      size:
-                        description: persistent volume size
-                        type: string
-                    type: object
+                  persistence: *persistence
                   resources:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
@@ -883,13 +888,7 @@ spec:
                         description: java options
                         type: string
                     type: object
-                  persistence:
-                    description: persistence options
-                    properties:
-                      size:
-                        description: persistent volume size
-                        type: string
-                    type: object
+                  persistence: *persistence
                   resources:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
@@ -1107,13 +1106,7 @@ spec:
                       type: object
                   image:
                     *imageProperties
-                  persistence:
-                    description: Suspend persistence options
-                    properties:
-                      size:
-                        description: PV size
-                        type: string
-                    type: object
+                  persistence: *persistence
                   resources:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
@@ -1195,13 +1188,7 @@ spec:
                       type: object
                   image:
                     *imageProperties
-                  persistence:
-                    description: Redis persistence options
-                    properties:
-                      size:
-                        description: PV size
-                        type: string
-                    type: object
+                  persistence: *persistence
                   resources:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
@@ -1787,9 +1774,78 @@ spec:
                 type: object
               cloudy-cost:
                 properties:
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
                   enabled:
                     description: Enable Cloudy cost
                     type: boolean
+                  serviceMesh:
+                    *serviceMesh
+                  image:
+                    *imageProperties
+                  env:
+                    description: environment variables
+                    type: array
+                    items:
+                      type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  cronjob:
+                    description: Extractor's parameters
+                    type: object
+                    properties:
+                      env:
+                        description: environment variables
+                        type: array
+                        items:
+                          type: object
+                        x-kubernetes-preserve-unknown-fields: true
+                      resources:
+                        type: object
+                        x-kubernetes-preserve-unknown-fields: true
+                      schedule:
+                        type: string
+                      suspend:
+                        type: boolean
+                      currentMonthOffset:
+                        type: string
+                      previousMonthOffset:
+                        type: string
+                  scaledJob:
+                    description: Runner's parameters
+                    type: object
+                    properties:
+                      triggers:
+                        type: object
+                        properties:
+                          consumerGroup:
+                            type: string
+                          topic:
+                            type: string
+                      env:
+                        description: environment variables
+                        type: array
+                        items:
+                          type: object
+                        x-kubernetes-preserve-unknown-fields: true
+                      resources:
+                        type: object
+                        x-kubernetes-preserve-unknown-fields: true
+                  javaBaseOptions:
+                    type: string
+                  javaComponentOptions:
+                    type: string
+                  javaDebugOptions:
+                    type: string
+                  javaMaxRAMPercentage:
+                    type: string
+                  javaOptions:
+                    type: string
+                  debug:
+                    type: boolean
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
                 type: object
               compellent:
                 properties:
@@ -1883,6 +1939,14 @@ spec:
                 properties:
                   enabled:
                     description: Enable IBM FlashSystem mediation
+                    type: boolean
+                  serviceMesh:
+                    *serviceMesh
+                type: object
+              svc:
+                properties:
+                  enabled:
+                    description: Enable IBM SVC mediation
                     type: boolean
                   serviceMesh:
                     *serviceMesh
@@ -2469,6 +2533,8 @@ spec:
                     type: string
                   killSidecarContainer:
                     type: boolean
+                  injectSidecar:
+                    type: boolean
                   cloudyApiConfig:
                     type: object
                     properties:
@@ -2479,8 +2545,6 @@ spec:
                       protocol:
                         type: string
                       waitTimeForQueryExportResult:
-                        type: string
-                      timeSpanInDays:
                         type: string
                       exportMetricsValues:
                         type: string
@@ -2523,6 +2587,8 @@ spec:
                     type: string
                   replicas:
                     type: number
+                  injectSidecar:
+                    type: boolean
               cloud-optimizer:
                 properties:
                   dbSecretName:
@@ -2870,6 +2936,7 @@ spec:
                 properties:
                   dbSecretName:
                     *dbComponentProperties
+                  persistence: *persistence
                   annotations:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
@@ -3203,6 +3270,10 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                   serviceAccountName:
                     type: string
+                  awsC2eCapTruststoreSecretName:
+                    type: string
+                  awsC2eCapClientKeystoreSecretName:
+                    type: string
                   dataPersistenceEnabled:
                     description: component volume mounted as PV
                     type: boolean
@@ -3279,6 +3350,10 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                   serviceAccountName:
                     type: string
+                  awsC2eCapTruststoreSecretName:
+                    type: string
+                  awsC2eCapClientKeystoreSecretName:
+                    type: string
                   dataPersistenceEnabled:
                     description: component volume mounted as PV
                     type: boolean
@@ -3352,6 +3427,13 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                   serviceAccountName:
                     type: string
+                  awsC2eCapTruststoreSecretName:
+                    type: string
+                  awsC2eCapClientKeystoreSecretName:
+                    type: string
+                  dataPersistenceEnabled:
+                    description: component volume mounted as PV
+                    type: boolean
                 type: object
               mediation-awsorganization:
                 properties:
@@ -4570,6 +4652,41 @@ spec:
                     type: string
                 type: object
               mediation-ibmstorage-flashsystem:
+                properties:
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  env:
+                    description: environment variables
+                    type: array
+                    items:
+                      type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  image:
+                    *imageProperties
+                  javaBaseOptions:
+                    type: string
+                  javaComponentOptions:
+                    type: string
+                  javaDebugOptions:
+                    type: string
+                  javaMaxRAMPercentage:
+                    type: string
+                  javaOptions:
+                    type: string
+                  debug:
+                    type: boolean
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceAccountName:
+                    type: string
+                type: object
+              mediation-svc:
                 properties:
                   annotations:
                     type: object

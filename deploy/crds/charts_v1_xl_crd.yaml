@@ -580,6 +580,9 @@ spec:
                       cloudyCostLookBackPeriodInDays:
                         description: Unified lookback period for container-cost-extractor,container-action-cost,cloudy-actions and action-orchestrator
                         type: integer
+                      workflow:
+                        description: "Indicates the usage of the container cost workflow in Turbo. Currently bypassed by CLOUDABILITY_PREMIUM deploymentMode"
+                        type: boolean
               # Enable Platform
               nginxingress:
                 properties:
@@ -1577,9 +1580,6 @@ spec:
                                 type: string
                               productPlanType:
                                 description: subscription or trial
-                                type: string
-                              sapSiteNumber:
-                                description: SAPSiteID identifies PAID SaaS deployments
                                 type: string
                             x-kubernetes-preserve-unknown-fields: true
                       resources:
@@ -3490,6 +3490,8 @@ spec:
                     *serviceMesh
                   tolerations:
                     *componentTolerations
+                  dataConfigMapName:
+                    type: string
                   env:
                     description: environment variables
                     type: array
@@ -3525,6 +3527,8 @@ spec:
                     *serviceMesh
                   tolerations:
                     *componentTolerations
+                  dataConfigMapName:
+                    type: string
                   env:
                     description: environment variables
                     type: array
@@ -3560,6 +3564,8 @@ spec:
                     *serviceMesh
                   tolerations:
                     *componentTolerations
+                  dataConfigMapName:
+                    type: string
                   env:
                     description: environment variables
                     type: array
@@ -3595,6 +3601,8 @@ spec:
                     *serviceMesh
                   tolerations:
                     *componentTolerations
+                  dataConfigMapName:
+                    type: string
                   env:
                     description: environment variables
                     type: array
@@ -3630,6 +3638,8 @@ spec:
                     *serviceMesh
                   tolerations:
                     *componentTolerations
+                  dataConfigMapName:
+                    type: string
                   env:
                     description: environment variables
                     type: array
@@ -3665,6 +3675,8 @@ spec:
                     *serviceMesh
                   tolerations:
                     *componentTolerations
+                  dataConfigMapName:
+                    type: string
                   env:
                     description: environment variables
                     type: array
@@ -3735,6 +3747,8 @@ spec:
                     *serviceMesh
                   tolerations:
                     *componentTolerations
+                  dataConfigMapName:
+                    type: string
                   env:
                     description: environment variables
                     type: array

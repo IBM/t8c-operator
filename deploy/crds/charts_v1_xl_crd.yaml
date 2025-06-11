@@ -964,6 +964,22 @@ spec:
                     type: integer
                   workerProcesses:
                     type: integer
+                  rateLimit:
+                    description: Configurations for api rate limit
+                    type: object
+                    properties:
+                      enabled:
+                        description: Whether api rate limit is enabled or not
+                        type: boolean
+                      location:
+                        description: Location to apply
+                        type: string
+                      rate:
+                        description: The throttling rate
+                        type: string
+                      burst:
+                        description: The burst (bucket) size
+                        type: string
                 type: object
               postgres:
                 properties:
@@ -1517,6 +1533,9 @@ spec:
                               redisMetricNameRegex:
                                 type: string
                                 description: A regex of metrics to scrape from the redis_exporter sidecar in the redis deployment
+                              kafkaMetricNameRegex:
+                                type: string
+                                description: A regex of metrics to scrape from the Open-telemetry java agent for Kafka Broker
                       image:
                         *imageProperties
                       tolerations:
@@ -1774,6 +1793,8 @@ spec:
                 type: object
               cloudy-cost:
                 properties:
+                  tolerations:
+                    *componentTolerations
                   annotations:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true

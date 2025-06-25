@@ -1081,6 +1081,7 @@ spec:
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
               zookeeper:
+                description: DEPRECATED - no longer supported
                 properties:
                   annotations:
                     type: object
@@ -1137,6 +1138,12 @@ spec:
                 type: object
               redis:
                 properties:
+                  exporter:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                    properties:
+                      enabled:
+                        type: boolean
                   config:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
@@ -1766,14 +1773,6 @@ spec:
                       enabled:
                         description: Disable EA by setting to `false`. By default, it is enabled if Azure is enabled
                         type: boolean
-                type: object
-              baremetal:
-                properties:
-                  enabled:
-                    description: Enable baremetal mediation
-                    type: boolean
-                  serviceMesh:
-                    *serviceMesh
                 type: object
               cloudability:
                 properties:
@@ -2690,6 +2689,13 @@ spec:
                   resources:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
+                  sidecar:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      enabled:
+                        type: boolean
                   serviceAccountName:
                     type: string
                 type: object
@@ -2952,6 +2958,8 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                   serviceAccountName:
                     type: string
+                  replicaCount:
+                    type: integer
                 type: object
               topology-processor:
                 properties:
@@ -4060,41 +4068,6 @@ spec:
                   dataPersistenceEnabled:
                     description: component volume mounted as PV
                     type: boolean
-                type: object
-              mediation-baremetal:
-                properties:
-                  annotations:
-                    type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
-                  tolerations:
-                    *componentTolerations
-                  env:
-                    description: environment variables
-                    type: array
-                    items:
-                      type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  image:
-                    *imageProperties
-                  javaBaseOptions:
-                    type: string
-                  javaComponentOptions:
-                    type: string
-                  javaDebugOptions:
-                    type: string
-                  javaMaxRAMPercentage:
-                    type: string
-                  javaOptions:
-                    type: string
-                  debug:
-                    type: boolean
-                  resources:
-                    type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  serviceAccountName:
-                    type: string
                 type: object
               mediation-compellent:
                 properties:

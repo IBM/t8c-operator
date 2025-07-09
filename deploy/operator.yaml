@@ -20,7 +20,7 @@ spec:
       serviceAccountName: t8c-operator
       containers:
       - name: t8c-operator
-        image: icr.io/cpopen/t8c-operator:42.83
+        image: icr.io/cpopen/t8c-operator:42.84
         imagePullPolicy: Always
         env:
         - name: WATCH_NAMESPACE
@@ -44,3 +44,16 @@ spec:
       volumes:
       - name: operator-tmpfs0
         emptyDir: {}
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: t8c-operator-egress
+spec:
+  podSelector:
+    matchLabels:
+      name: t8c-operator
+  egress:
+    - {}
+  policyTypes:
+    - Egress

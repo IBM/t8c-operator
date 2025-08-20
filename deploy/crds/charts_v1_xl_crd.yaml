@@ -75,6 +75,10 @@ spec:
                       type: object
                     type: array
                     x-kubernetes-preserve-unknown-fields: true
+                  affinity: &componentAffinity
+                    description: Global pod affinity list
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
                   persistentVolume: &persistentVolume
                     type: object
                     description: PV options
@@ -236,9 +240,7 @@ spec:
                   tolerations:
                     *componentTolerations
                   affinity:
-                    description: Global pod affinity list
-                    type: object
-                    x-kubernetes-preserve-unknown-fields: true
+                    *componentAffinity
                   annotations:
                     description: Global pod annotations list
                     type: object
@@ -373,6 +375,44 @@ spec:
                   hostingRegion:
                     type: string
                     description: Hosting Region in which the component is deployed
+                  turboai:
+                    type: object
+                    properties:
+                      secret:
+                        type: string
+                        description: 'An opaque token encapsulating credentials to various services'
+                      config:
+                        properties:
+                          turbo.feedback.enabled:
+                            type: boolean
+                          milvus.user:
+                            type: string
+                          milvus.host:
+                            type: string
+                          milvus.port:
+                            type: string
+                          dynamodb.region:
+                            type: string
+                          watsonx.project_id:
+                            type: string
+                          watsonx.host:
+                            type: string
+                          token_usage_service.table_name:
+                            type: string
+                            description: 'The name of the database table where token usage data from AI service interactions is stored.'
+                          feedback_service.table_name:
+                            type: string
+                            description: 'The name of the database table where feedback data is stored.'
+                          token_usage_service.token_usage_label:
+                            type: string
+                            description: 'categorize token usage records for AI service requests'
+                          tenant.id:
+                            type: string
+                            # called client id in the API
+                          debug:
+                            type: boolean
+                            # set turboai in debug mode
+                        type: object
                   telemetry:
                     type: object
                     properties:
@@ -701,6 +741,19 @@ spec:
                 type: object
               db:
                 properties:
+                  terminationGracePeriodSeconds:
+                    description: Termination grace period for the db pod (seconds)
+                    type: integer
+                  enableGracefulShutdown:
+                    description: Enable preStop hook to request clean MariaDB shutdown
+                    type: boolean
+                  preStop:
+                    description: Full preStop hook configuration
+                    type: object
+                    properties:
+                      command:
+                        description: Full shell command to run in preStop (multi-line allowed)
+                        type: string
                   enabled:
                     description: Enable db component
                     type: boolean
@@ -794,6 +847,36 @@ spec:
               kinesis-kafka-connect:
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
+              metrics-store:
+                properties:
+                  annotations:
+                    type: object
+                  enabled:
+                    type: boolean
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  javaBaseOptions:
+                    type: string
+                  javaComponentOptions:
+                    type: string
+                  javaDebugOptions:
+                    type: string
+                  javaMaxRAMPercentage:
+                    type: string
+                  javaOptions:
+                    type: string
+                  debug:
+                    type: boolean
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  image:
+                    *imageProperties
+                  serviceAccountName:
+                    type: string
+                type: object
               metrics-processor:
                 properties:
                   annotations:
@@ -897,6 +980,24 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                   serviceAccountName:
                     type: string
+                type: object
+              solisgateway:
+                properties:
+                  enabled:
+                    description: Enable solisgateway service
+                    type: boolean
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  image:
+                    *imageProperties
+                  hubURL:
+                    description: IBM Solis Hub url
+                    type: string
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
                 type: object
               nginx:
                 properties:
@@ -1794,6 +1895,8 @@ spec:
                 properties:
                   tolerations:
                     *componentTolerations
+                  affinity:
+                    *componentAffinity
                   annotations:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
@@ -2357,6 +2460,21 @@ spec:
                     *dbComponentProperties
                   enabled:
                     description: Enable oauth2 service
+                    type: boolean
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  image:
+                    *imageProperties
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                type: object
+              turboai:
+                properties:
+                  enabled:
+                    description: Enable turboai service
                     type: boolean
                   serviceMesh:
                     *serviceMesh
@@ -3648,6 +3766,8 @@ spec:
                     items:
                       type: object
                     x-kubernetes-preserve-unknown-fields: true
+                  ephemeralVolume:
+                    *ephemeralVolume
                   image:
                     *imageProperties
                   javaBaseOptions:
@@ -3966,6 +4086,44 @@ spec:
                   serviceAccountName:
                     type: string
                 type: object
+              metrics-adapter-oci-monitoring:
+                properties:
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  env:
+                    description: environment variables
+                    type: array
+                    items:
+                      type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  enabled:
+                    description: Enable new metrics framework
+                    type: boolean
+                  image:
+                    *imageProperties
+                  javaBaseOptions:
+                    type: string
+                  javaComponentOptions:
+                    type: string
+                  javaDebugOptions:
+                    type: string
+                  javaMaxRAMPercentage:
+                    type: string
+                  javaOptions:
+                    type: string
+                  debug:
+                    type: boolean
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceAccountName:
+                    type: string
+                type: object
               mediation-apptio-cloudability:
                 properties:
                   annotations:
@@ -4077,6 +4235,40 @@ spec:
                     type: boolean
                   dataPersistenceEnabled:
                     description: component volume mounted as PV
+                    type: boolean
+                type: object
+              cloudy-costdimensionsdeduplicator:
+                properties:
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  tolerations:
+                    *componentTolerations
+                  env:
+                    type: array
+                    items:
+                      type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  image:
+                    *imageProperties
+                  javaBaseOptions:
+                    type: string
+                  javaComponentOptions:
+                    type: string
+                  javaDebugOptions:
+                    type: string
+                  javaMaxRAMPercentage:
+                    type: string
+                  javaOptions:
+                    type: string
+                  debug:
+                    type: boolean
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceAccountName:
+                    type: string
+                  createServiceAccount:
                     type: boolean
                 type: object
               mediation-compellent:
@@ -5988,6 +6180,9 @@ spec:
                       trialExpirationTime:
                         description: For SAAS_TRIAL deploymentMode, when does the trial expire, in ISO 8601 Format
                         type: string
+                      aiChatEnabled:
+                        description: Enable Turbo AI Chat in the UI
+                        type: boolean
                       oidcProviderUrl:
                         description: For SAAS and SAAS_TRIAL deploymentMode, the OIDC provider URL
                         type: string

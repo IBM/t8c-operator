@@ -58,6 +58,18 @@ spec:
           spec:
             description: defines the desired state of Xl
             properties:
+              storage:
+                type: object
+                properties:
+                  type:
+                    type: string
+              nfs:
+                type: object
+                properties:
+                  server:
+                    type: string
+                  rootPath:
+                    type: string
             # Dummy object that will not be included in the installed research,
             # due to its name ("x-" prefix marks this as an something to be processed by a YAML
             # extension). We won't do that, but we can use this object as a container for
@@ -134,6 +146,16 @@ spec:
                         type: boolean
                         description: whether the component should be enrolled in istio data plane
                     x-kubernetes-preserve-unknown-fields: true
+                  volumeForNfs: &volumeForNfs
+                    description: Volume template for direct nfs storage
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        subdirPath:
+                          type: string
               global:
                 type: object
                 description: Platform configuration options
@@ -733,6 +755,8 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                   image:
                     *imageProperties
+                  volumes:
+                    *volumeForNfs
                   resources:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
@@ -772,6 +796,8 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                   image:
                     *imageProperties
+                  volumes:
+                    *volumeForNfs
                   persistence: *persistence
                   resources:
                     type: object
@@ -967,6 +993,8 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                   image:
                     *imageProperties
+                  volumes:
+                    *volumeForNfs
                   java:
                     description: java options
                     properties:
@@ -1093,6 +1121,8 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                   image:
                     *imageProperties
+                  volumes:
+                    *volumeForNfs
                   tolerations:
                     *componentTolerations
                   persistence:
@@ -1128,6 +1158,8 @@ spec:
                       type: object
                   image:
                     *imageProperties
+                  volumes:
+                    *volumeForNfs
                   persistence:
                     description: persistence options
                     properties:
@@ -1166,6 +1198,8 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                   image:
                     *imageProperties
+                  volumes:
+                    *volumeForNfs
                   persistence:
                     description: PostgreSQL persistence options
                     properties:
@@ -1574,6 +1608,8 @@ spec:
                         type: boolean
                       image:
                         *imageProperties
+                      volumes:
+                        *volumeForNfs
                       resources:
                         type: object
                         x-kubernetes-preserve-unknown-fields: true
@@ -1588,6 +1624,8 @@ spec:
                       enabled:
                         type: boolean
                       persistentVolumeClaim: *persistentVolumeClaim
+                      volumes:
+                        *volumeForNfs
                       useClusterRole:
                         type: boolean
                         description: 'Whether to use a cluster role and role binding for Prometheus
@@ -2384,6 +2422,8 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                   image:
                     *imageProperties
+                  volumes:
+                    *volumeForNfs
                   javaBaseOptions:
                     type: string
                   javaComponentOptions:
@@ -2424,6 +2464,8 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                   image:
                     *imageProperties
+                  volumes:
+                    *volumeForNfs
                   javaBaseOptions:
                     type: string
                   javaComponentOptions:
@@ -3108,6 +3150,8 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                   image:
                     *imageProperties
+                  volumes:
+                    *volumeForNfs
                   javaBaseOptions:
                     type: string
                   javaComponentOptions:
@@ -3410,6 +3454,8 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                   image:
                     *imageProperties
+                  volumes:
+                    *volumeForNfs
                   javaBaseOptions:
                     type: string
                   javaComponentOptions:
@@ -3440,6 +3486,8 @@ spec:
                   annotations:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
+                  replicaCount:
+                    type: integer
                   serviceMesh:
                     *serviceMesh
                   tolerations:
@@ -3490,6 +3538,8 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                   image:
                     *imageProperties
+                  volumes:
+                    *volumeForNfs
                   javaBaseOptions:
                     type: string
                   javaComponentOptions:
@@ -3567,6 +3617,8 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                   image:
                     *imageProperties
+                  volumes:
+                    *volumeForNfs
                   javaBaseOptions:
                     type: string
                   javaComponentOptions:
@@ -4657,6 +4709,41 @@ spec:
                     type: string
                 type: object
               mediation-github:
+                properties:
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  env:
+                    description: environment variables
+                    type: array
+                    items:
+                      type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  image:
+                    *imageProperties
+                  javaBaseOptions:
+                    type: string
+                  javaComponentOptions:
+                    type: string
+                  javaDebugOptions:
+                    type: string
+                  javaMaxRAMPercentage:
+                    type: string
+                  javaOptions:
+                    type: string
+                  debug:
+                    type: boolean
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceAccountName:
+                    type: string
+                type: object
+              mediation-gitlab:
                 properties:
                   annotations:
                     type: object

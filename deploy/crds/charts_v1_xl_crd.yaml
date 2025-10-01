@@ -735,7 +735,69 @@ spec:
                   serviceMesh:
                     *serviceMesh
                 type: object
-
+              clickhouse:
+                properties:
+                  operator:
+                    properties:
+                      enabled:
+                        type: boolean
+                    type: object
+                  keeper:
+                    properties:
+                      create:
+                        type: boolean
+                      logLevel:
+                        type: string
+                      replicasCount:
+                        type: integer
+                        x-kubernetes-validations:
+                          - rule: "self % 2 != 0"
+                            message: "ClickHouse keeper must have an odd number of replicas."
+                    type: object
+                  metrics:
+                    properties:
+                      enabled:
+                        type: boolean
+                      port:
+                        type: integer
+                    type: object
+                  logLevel:
+                    type: string
+                  replicasCount:
+                    type: integer
+                  shardsCount:
+                    type: integer
+                  annotations:
+                    type: object
+                  affinity:
+                    *componentAffinity
+                  enabled:
+                    type: boolean
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  env:
+                    type: array
+                    items:
+                      type: object
+                  image:
+                    *imageProperties
+                  persistence: *persistence
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceAccount:
+                    properties:
+                      name:
+                        type: string
+                      create:
+                        type: boolean
+                      annotations:
+                        type: object
+                        x-kubernetes-preserve-unknown-fields: true
+                    type: object
+                type: object
               # Configure platform
               consul:
                 properties:
@@ -827,6 +889,21 @@ spec:
                     *serviceMesh
                   enableAwsMsk:
                     type: boolean
+                  javaBaseOptions:
+                    description: java base options override
+                    type: string
+                  javaComponentOptions:
+                    description: java component options
+                    type: string
+                  javaDebugOptions:
+                    description: java debug options override
+                    type: string
+                  javaMaxRAMPercentage:
+                    description: java max RAM percentage override
+                    type: string
+                  javaOptions:
+                    description: java options override
+                    type: string
                   logstash:
                     properties:
                       enabled:

@@ -2838,6 +2838,8 @@ spec:
                     items:
                       type: object
                     x-kubernetes-preserve-unknown-fields: true
+                  tolerations:
+                    *componentTolerations
                   image:
                     *imageProperties
                   javaBaseOptions:
@@ -2858,8 +2860,8 @@ spec:
                     type: boolean
                   restartPolicy:
                     type: string
-                  replicas:
-                    type: number
+                  replicaCount:
+                    type: integer
                   injectSidecar:
                     type: boolean
               cloud-optimizer:
@@ -3301,6 +3303,10 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                   logLevel:
                     type: string
+                  isDiagsEnabled:
+                    type: boolean
+                  isReactive:
+                    type: boolean
               cas-training:
                 type: object
                 description: Configuration for coordinated-autoscaling
@@ -3348,6 +3354,14 @@ spec:
                         x-kubernetes-preserve-unknown-fields: true
                       logLevel:
                         type: string
+                      isDiagsEnabled:
+                        type: boolean
+                      intervalMins:
+                        type: integer
+                      initialDelayMins:
+                        type: integer
+                      cutOffHours:
+                        type: integer
               actions-history:
                 description: component for tracking action state change
                 type: object

@@ -405,7 +405,9 @@ spec:
                         description: 'An opaque token encapsulating credentials to various services'
                       config:
                         properties:
-                          turbo.feedback.enabled:
+                          feedback.label:
+                            type: string
+                          feedback.enabled:
                             type: boolean
                           milvus.user:
                             type: string
@@ -760,6 +762,11 @@ spec:
                         type: boolean
                       port:
                         type: integer
+                      serviceMonitor:
+                        properties:
+                          enabled:
+                            type: boolean
+                        type: object
                     type: object
                   logLevel:
                     type: string
@@ -767,6 +774,11 @@ spec:
                     type: integer
                   shardsCount:
                     type: integer
+                  ipV6:
+                    properties:
+                      enabled:
+                        type: boolean
+                    type: object
                   annotations:
                     type: object
                   affinity:
@@ -1356,6 +1368,9 @@ spec:
                     properties:
                       enabled:
                         type: boolean
+                      resources:
+                        type: object
+                        x-kubernetes-preserve-unknown-fields: true
                   config:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
@@ -2454,6 +2469,9 @@ spec:
                     type: string
                   debug:
                     type: boolean
+                  enableActionExecution:
+                    description: Enable or disable action execution
+                    type: boolean
                   resources:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
@@ -2821,6 +2839,8 @@ spec:
                         type: string
                       exportMetricsValues:
                         type: string
+                  schedule:
+                    type: string
               container-action-cost:
                 type: object
                 properties:

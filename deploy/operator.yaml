@@ -9,6 +9,8 @@ metadata:
 
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       name: t8c-operator
@@ -20,7 +22,7 @@ spec:
       serviceAccountName: t8c-operator
       containers:
       - name: t8c-operator
-        image: icr.io/cpopen/t8c-operator:42.93
+        image: icr.io/cpopen/t8c-operator:42.94
         imagePullPolicy: Always
         env:
         - name: WATCH_NAMESPACE

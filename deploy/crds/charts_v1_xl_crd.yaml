@@ -70,10 +70,10 @@ spec:
                     type: string
                   rootPath:
                     type: string
-            # Dummy object that will not be included in the installed research,
-            # due to its name ("x-" prefix marks this as an something to be processed by a YAML
-            # extension). We won't do that, but we can use this object as a container for
-            # reusable templates (YAML anchors) to be used later in the file.
+              # Dummy object that will not be included in the installed research,
+              # due to its name ("x-" prefix marks this as an something to be processed by a YAML
+              # extension). We won't do that, but we can use this object as a container for
+              # reusable templates (YAML anchors) to be used later in the file.
               x-templates:
                 type: object
                 description: internal use only
@@ -3095,6 +3095,46 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                   serviceMesh:
                     *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  env:
+                    description: environment variables
+                    type: array
+                    items:
+                      type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  image:
+                    *imageProperties
+                  javaBaseOptions:
+                    type: string
+                  javaComponentOptions:
+                    type: string
+                  javaDebugOptions:
+                    type: string
+                  javaMaxRAMPercentage:
+                    type: string
+                  javaOptions:
+                    type: string
+                  debug:
+                    type: boolean
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceAccountName:
+                    type: string
+                type: object
+              maintenance:
+                properties:
+                  enabled:
+                    description: Enable Maintenance component
+                    type: boolean
+                  serviceMesh:
+                    *serviceMesh
+                  dbSecretName:
+                    *dbComponentProperties
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
                   tolerations:
                     *componentTolerations
                   env:

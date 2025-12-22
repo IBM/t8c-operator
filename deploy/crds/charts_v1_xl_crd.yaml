@@ -405,6 +405,9 @@ spec:
                         description: 'An opaque token encapsulating credentials to various services'
                       config:
                         properties:
+                          env.parameters:
+                            type: object
+                            x-kubernetes-preserve-unknown-fields: true
                           feedback.label:
                             type: string
                           feedback.enabled:
@@ -1929,6 +1932,17 @@ spec:
                   persistentVolumeClaim: *persistentVolumeClaim
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
+              hashicorp-vault:
+                type: object
+                description: 'Configuration of Hashicorp Vault Agent Injector.'
+                properties:
+                  enabled:
+                    type: boolean
+                    description: 'Whether Hashicorp Vault Agent Injector pod should be created.'
+                  image:
+                    *imageProperties
+                  tolerations:
+                    *componentTolerations
 
               # Enable mediation
               actionscript:
@@ -3011,6 +3025,44 @@ spec:
                   serviceAccountName:
                     type: string
                 type: object
+              ext-actions-id:
+                properties:
+                  enabled:
+                    description: Enable External Actions Identifier Component
+                    type: boolean
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  env:
+                    description: environment variables
+                    type: array
+                    items:
+                      type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  image:
+                    *imageProperties
+                  javaBaseOptions:
+                    type: string
+                  javaComponentOptions:
+                    type: string
+                  javaDebugOptions:
+                    type: string
+                  javaMaxRAMPercentage:
+                    type: string
+                  javaOptions:
+                    type: string
+                  debug:
+                    type: boolean
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceAccountName:
+                    type: string
+                type: object
               group:
                 properties:
                   dbSecretName:
@@ -3128,13 +3180,13 @@ spec:
                   enabled:
                     description: Enable Maintenance component
                     type: boolean
-                  serviceMesh:
-                    *serviceMesh
                   dbSecretName:
                     *dbComponentProperties
                   annotations:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
+                  serviceMesh:
+                    *serviceMesh
                   tolerations:
                     *componentTolerations
                   env:
@@ -3367,6 +3419,31 @@ spec:
                     type: boolean
                   isReactive:
                     type: boolean
+                  debugPyPort:
+                    type: integer
+                  debugPyEnabled:
+                    type: boolean
+                  predictTTM:
+                    type: boolean
+                  workloadMuxHoltwinters:
+                    type: integer
+                  workloadMuxTTM:
+                    type: integer
+                  workloadMuxRegression:
+                    type: integer
+                  workloadMuxLag:
+                    type: integer
+                  includeServiceWorkload:
+                    type: boolean
+                  enableTunneling:
+                    type: boolean
+                  tunnelingWidth:
+                    type: number
+                    format: float
+                  mipApproach:
+                    type: boolean
+                  enableOnlineLearning:
+                    type: boolean
               cas-training:
                 type: object
                 description: Configuration for coordinated-autoscaling
@@ -3422,6 +3499,14 @@ spec:
                         type: integer
                       cutOffHours:
                         type: integer
+                      debugPyPort:
+                        type: integer
+                      debugPyEnabled:
+                        type: boolean
+                      fineTuneTTM:
+                        type: boolean
+                      includeServiceWorkload:
+                        type: boolean
               actions-history:
                 description: component for tracking action state change
                 type: object

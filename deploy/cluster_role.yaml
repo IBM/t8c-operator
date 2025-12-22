@@ -125,3 +125,9 @@ rules:
     - routes/custom-host
   verbs:
     - '*'
+- apiGroups:
+  - admissionregistration.k8s.io
+  resources:
+  - mutatingwebhookconfigurations
+  verbs:
+  - '*'

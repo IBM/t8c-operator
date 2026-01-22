@@ -1268,6 +1268,9 @@ spec:
                     x-kubernetes-preserve-unknown-fields: true
                   serviceAccountName:
                     type: string
+                  syslogTag:
+                    description: Instance identifier prepended to logs when forwarding to external syslog servers.
+                    type: string
                   tunnel:
                     type: object
                     properties:
@@ -6597,7 +6600,41 @@ spec:
                   serviceAccountName:
                     type: string
                 type: object
-
+              mediation-kubecost:
+                type: object
+                properties:
+                  enabled:
+                    description: Enable Kubecost Mediation
+                    type: boolean
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  kubecostProbe:
+                    description: Kubecost Probe configuration
+                    type: object
+                    properties:
+                      image:
+                        *imageProperties
+                      resources:
+                        type: object
+                        x-kubernetes-preserve-unknown-fields: true
+                  turbodif:
+                    description: Turbodif configuration
+                    type: object
+                    properties:
+                      image:
+                        *imageProperties
+                      resources:
+                        type: object
+                        x-kubernetes-preserve-unknown-fields: true
+                  config:
+                    description: Kubecost Probe config settings
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
               # Custom properties for component configuration
               properties:
                 description: Custom property overrides

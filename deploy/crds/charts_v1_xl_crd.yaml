@@ -1909,6 +1909,9 @@ spec:
                       pass:
                         description: password for the mysql exporter
                         type: string
+                      sslSecretName:
+                        description: name of the kubernetes secret containing ssl certificates as ssl-ca
+                        type: string
                     type: object
                   resources:
                     type: object
@@ -4605,76 +4608,6 @@ spec:
                   serviceAccountName:
                     type: string
                 type: object
-              mediation-databricksaccount:
-                properties:
-                  annotations:
-                    type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
-                  tolerations:
-                    *componentTolerations
-                  env:
-                    description: environment variables
-                    type: array
-                    items:
-                      type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  image:
-                    *imageProperties
-                  javaBaseOptions:
-                    type: string
-                  javaComponentOptions:
-                    type: string
-                  javaDebugOptions:
-                    type: string
-                  javaMaxRAMPercentage:
-                    type: string
-                  javaOptions:
-                    type: string
-                  debug:
-                    type: boolean
-                  resources:
-                    type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  serviceAccountName:
-                    type: string
-                type: object
-              mediation-databricksinfra:
-                properties:
-                  annotations:
-                    type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
-                  tolerations:
-                    *componentTolerations
-                  env:
-                    description: environment variables
-                    type: array
-                    items:
-                      type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  image:
-                    *imageProperties
-                  javaBaseOptions:
-                    type: string
-                  javaComponentOptions:
-                    type: string
-                  javaDebugOptions:
-                    type: string
-                  javaMaxRAMPercentage:
-                    type: string
-                  javaOptions:
-                    type: string
-                  debug:
-                    type: boolean
-                  resources:
-                    type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  serviceAccountName:
-                    type: string
-                type: object
               mediation-databricksworkspace:
                 properties:
                   annotations:
@@ -5061,6 +4994,41 @@ spec:
                     type: string
                 type: object
               mediation-ocipricing:
+                properties:
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  env:
+                    description: environment variables
+                    type: array
+                    items:
+                      type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  image:
+                    *imageProperties
+                  javaBaseOptions:
+                    type: string
+                  javaComponentOptions:
+                    type: string
+                  javaDebugOptions:
+                    type: string
+                  javaMaxRAMPercentage:
+                    type: string
+                  javaOptions:
+                    type: string
+                  debug:
+                    type: boolean
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceAccountName:
+                    type: string
+                type: object
+              mediation-ocibilling:
                 properties:
                   annotations:
                     type: object

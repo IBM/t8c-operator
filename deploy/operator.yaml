@@ -22,7 +22,7 @@ spec:
       serviceAccountName: t8c-operator
       containers:
       - name: t8c-operator
-        image: icr.io/cpopen/t8c-operator:42.97
+        image: icr.io/cpopen/t8c-operator:42.98
         imagePullPolicy: Always
         env:
         - name: WATCH_NAMESPACE

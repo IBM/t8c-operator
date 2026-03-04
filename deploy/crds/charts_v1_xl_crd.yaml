@@ -2636,6 +2636,25 @@ spec:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
                 type: object
+              mcp-turbo-api:
+                type: object
+                properties:
+                  enabled:
+                    description: Enable mcp-turbo-api service
+                    type: boolean
+                  config:
+                    description: Configuration values for mcp-turbo-api ConfigMap
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceMesh: *serviceMesh
+                  tolerations: *componentTolerations
+                  image: *imageProperties
               turboai:
                 properties:
                   enabled:
@@ -2924,12 +2943,8 @@ spec:
                     items:
                       type: object
                     x-kubernetes-preserve-unknown-fields: true
-                  ephemeralStorageEnabled:
-                    description: Enable generic ephemeral storage for temporary storage
-                    type: boolean
-                  ephemeralStorageSize:
-                    description: Temp storage ephemeral volume size
-                    type: string
+                  ephemeralVolume:
+                    *ephemeralVolume
                   image:
                     *imageProperties
                   javaBaseOptions:
@@ -3502,6 +3517,12 @@ spec:
                       intervalMins:
                         type: integer
                       initialDelayMins:
+                        type: integer
+                      cleanupIntervalMins:
+                        type: integer
+                      cleanupInitialDelayMins:
+                        type: integer
+                      modelAgeThresholdMins:
                         type: integer
                       cutOffHours:
                         type: integer

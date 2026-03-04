@@ -19,10 +19,12 @@ spec:
   #  imageUsername: turbouser
   #  imagePassword: turbopassword
     repository: icr.io/cpopen/turbonomic
-    tag: 8.19.0
+    tag: 8.19.1
     externalIP: 10.0.2.15
     externalDbIP: 10.0.2.15
     externalTimescaleDBIP: 10.0.2.15
+    namespaceIsolationCommercial:
+      enabled: false
     enableExternalSecrets: true
 
   grafana:

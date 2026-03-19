@@ -1173,6 +1173,10 @@ spec:
                       Overrides the TLSv3 ciphers supported by nginx. Corresponds to to the value of the
                       ssl_conf_command Ciphersuites field in the nginx configuration file.
                     type: string
+                  tlsv3Groups:
+                    description: |-
+                      Overrides TLSv3 groups for nginx (ssl_conf_command Groups).
+                    type: string
                   tunnel:
                     type: object
                     properties:

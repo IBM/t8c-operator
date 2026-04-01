@@ -1283,6 +1283,30 @@ spec:
                       address:
                         type: string
                         description: the name that will be given to the exposed service
+                  logsTool:
+                    type: object
+                    description: Configuration for logs-tool sidecar
+                    properties:
+                      enabled:
+                        type: boolean
+                        description: Enable logs-tool sidecar for stacktrace retrieval
+                      image:
+                        *imageProperties
+                      logDir:
+                        type: string
+                        description: Directory containing rsyslog logs
+                      logFile:
+                        type: string
+                        description: Relative path to log file within logDir
+                      maxResults:
+                        type: string
+                        description: Maximum number of results to return
+                      port:
+                        type: integer
+                        description: Port for logs-tool HTTP API
+                      resources:
+                        type: object
+                        x-kubernetes-preserve-unknown-fields: true
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
               timescaledb:
@@ -3420,6 +3444,45 @@ spec:
                   serviceAccountName:
                     type: string
                 type: object
+              secret-manager:
+                properties:
+                  enabled:
+                    description: Enable Secret Manager component
+                    type: boolean
+                  persistence: *persistence
+                  annotations:
+                    description: component specific pod annotations list
+                    type: object
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  persistentVolumeClaim: *persistentVolumeClaim
+                  image:
+                    *imageProperties
+                  volumes:
+                    *volumeForNfs
+                  javaComponentOptions:
+                    description: java component options
+                    type: string
+                  debug:
+                    description: component debug
+                    type: boolean
+                  resources:
+                    description: component resource configuration
+                    properties:
+                      limits:
+                        description: component limits
+                        properties:
+                          memory:
+                            description: component memory limits
+                            type: string
+                        type: object
+                    type: object
+                  serviceAccountName:
+                    description: component serviceAccountName
+                    type: string
+                type: object
               cas-inferencing:
                 type: object
                 description: Configuration for coordinated-autoscaling inferencing
@@ -3970,6 +4033,8 @@ spec:
                   annotations:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
+                  replicaCount:
+                    type: integer
                   serviceMesh:
                     *serviceMesh
                   tolerations:
@@ -4848,6 +4913,8 @@ spec:
                   annotations:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
+                  replicaCount:
+                    type: integer
                   serviceMesh:
                     *serviceMesh
                   tolerations:

@@ -424,15 +424,9 @@ spec:
                             type: string
                           watsonx.host:
                             type: string
-                          token_usage_service.table_name:
-                            type: string
-                            description: 'The name of the database table where token usage data from AI service interactions is stored.'
                           feedback_service.table_name:
                             type: string
                             description: 'The name of the database table where feedback data is stored.'
-                          token_usage_service.token_usage_label:
-                            type: string
-                            description: 'categorize token usage records for AI service requests'
                           tenant.id:
                             type: string
                             # called client id in the API
@@ -1973,6 +1967,12 @@ spec:
                   enabled:
                     type: boolean
                     description: 'Whether Hashicorp Vault Agent Injector pod should be created.'
+                  externalVaultAddr:
+                    description: The url connecting to external Vault
+                    type: string
+                  externalVaultMountPath:
+                    description: The mount path for auth under external Vault
+                    type: string
                   image:
                     *imageProperties
                   tolerations:
@@ -2200,6 +2200,14 @@ spec:
                 properties:
                   enabled:
                     description: Enable OCI mediation
+                    type: boolean
+                  serviceMesh:
+                    *serviceMesh
+                type: object
+              ibmcloud:
+                properties:
+                  enabled:
+                    description: Enable IBM Cloud mediation
                     type: boolean
                   serviceMesh:
                     *serviceMesh
@@ -3515,6 +3523,8 @@ spec:
                     type: boolean
                   workloadMuxHoltwinters:
                     type: integer
+                  kafkaMaxRequestSizeBytes:
+                    type: integer
                   workloadMuxTTM:
                     type: integer
                   workloadMuxRegression:
@@ -3590,6 +3600,8 @@ spec:
                       cleanupInitialDelayMins:
                         type: integer
                       modelAgeThresholdMins:
+                        type: integer
+                      kafkaMaxRequestSizeBytes:
                         type: integer
                       cutOffHours:
                         type: integer
@@ -5086,6 +5098,111 @@ spec:
                     type: string
                 type: object
               mediation-ocipricing:
+                properties:
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  env:
+                    description: environment variables
+                    type: array
+                    items:
+                      type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  image:
+                    *imageProperties
+                  javaBaseOptions:
+                    type: string
+                  javaComponentOptions:
+                    type: string
+                  javaDebugOptions:
+                    type: string
+                  javaMaxRAMPercentage:
+                    type: string
+                  javaOptions:
+                    type: string
+                  debug:
+                    type: boolean
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceAccountName:
+                    type: string
+                type: object
+              mediation-ibmcloud:
+                properties:
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  env:
+                    description: environment variables
+                    type: array
+                    items:
+                      type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  image:
+                    *imageProperties
+                  javaBaseOptions:
+                    type: string
+                  javaComponentOptions:
+                    type: string
+                  javaDebugOptions:
+                    type: string
+                  javaMaxRAMPercentage:
+                    type: string
+                  javaOptions:
+                    type: string
+                  debug:
+                    type: boolean
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceAccountName:
+                    type: string
+                type: object
+              mediation-ibmcloudinfra:
+                properties:
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  env:
+                    description: environment variables
+                    type: array
+                    items:
+                      type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  image:
+                    *imageProperties
+                  javaBaseOptions:
+                    type: string
+                  javaComponentOptions:
+                    type: string
+                  javaDebugOptions:
+                    type: string
+                  javaMaxRAMPercentage:
+                    type: string
+                  javaOptions:
+                    type: string
+                  debug:
+                    type: boolean
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceAccountName:
+                    type: string
+                type: object
+              mediation-ibmcloudpricing:
                 properties:
                   annotations:
                     type: object

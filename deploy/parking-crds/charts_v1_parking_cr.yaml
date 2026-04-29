@@ -1,4 +1,3 @@
----
 apiVersion: charts.helm.k8s.io/v1
 kind: Xl
 metadata:
@@ -12,18 +11,30 @@ spec:
   # Declare variables to be passed into your templates.
 
   # Any changes run : kubectl apply -f deploy/crds/charts_v1alpha1_xl_cr.yaml -n turbonomic
+  properties:
+    global:
+      featureFlags:
+        enableHostingInfoTelemetry: true
 
   # Global settings
   global:
-  #  registry: index.docker.io
-  #  imageUsername: turbouser
-  #  imagePassword: turbopassword
+    deploymentMode: PARKING
     repository: icr.io/cpopen/turbonomic
     tag: 8.19.5
     externalIP: 10.0.2.15
     externalDbIP: 10.0.2.15
     externalTimescaleDBIP: 10.0.2.15
     enableExternalSecrets: true
+    telemetry:
+      automatic:
+        enabled: true
+      enabled: true
+      metricFederatedSystem:
+        enabled: true
+      plg:
+        enabled: false
+      shareTelemetry: FORCE_ON
+    secret: <TELEMETRY_SECRET>
 
   grafana:
     # Grafana is disabled by default. To enable it, uncomment:
@@ -38,70 +49,68 @@ spec:
 
   # Component selector - Probes
   actionscript:
-    enabled: true
+    enabled: false
   actionstream-kafka:
     enabled: false
   appdynamics:
-    enabled: true
+    enabled: false
   aws:
     enabled: true
   azure:
     enabled: true
   dynatrace:
-    enabled: true
+    enabled: false
   gcp:
     enabled: true
   oci:
     enabled: false
-  ibmcloud:
-    enabled: false
   hpe3par:
-    enabled: true
+    enabled: false
   horizon:
     enabled: false
   hyperflex:
     enabled: false
   hyperv:
-    enabled: true
+    enabled: false
   ibmstorage-flashsystem:
-    enabled: true
+    enabled: false
   kubeturbo:
-    enabled: true
+    enabled: false
   netapp:
-    enabled: true
+    enabled: false
   nutanix:
-    enabled: true
+    enabled: false
   oneview:
-    enabled: true
+    enabled: false
+  prometurbo:
+    enabled: false
+  pure:
+    enabled: false
   prometheus-mysql-exporter:
-    enabled: true
+    enabled: false
     mysql:
       user: root
       pass: vmturbo
   prometheus:
-    enabled: true
-  prometurbo:
-    enabled: true
-  pure:
     enabled: true
   scaleio:
     enabled: false
   servicenow:
     enabled: false
   ucs:
-    enabled: true
+    enabled: false
   vcenter:
-    enabled: true
+    enabled: false
   vmax:
-    enabled: true
+    enabled: false
   vmm:
-    enabled: true
+    enabled: false
   wmi:
-    enabled: true
+    enabled: false
   snmp:
-    enabled: true
+    enabled: false
   mssql:
-    enabled: true
+    enabled: false
   mysql:
     enabled: false
   oracle:
@@ -111,20 +120,36 @@ spec:
   jvm:
     enabled: false
   newrelic:
-    enabled: true
+    enabled: false
   udt:
-    enabled: true
+    enabled: false
   websphere:
+    enabled: false
+  powervm:
     enabled: false
   weblogic:
     enabled: false
   xen:
     enabled: false
   instana:
+    enabled: false
+  suspend:
     enabled: true
   datadog:
-    enabled: true
-  powervm:
-    enabled: true
+    enabled: false
   metrics-processor:
+    enabled: false
+  oauth2:
     enabled: true
+  container-action-cost:
+    enabled: false
+  server-power-modeler:
+    enabled: false
+  cloud-optimizer:
+    enabled: false
+  sustainability:
+    enabled: false
+  metadata:
+    enabled: false
+  webhook:
+    enabled: false

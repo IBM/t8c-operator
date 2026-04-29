@@ -561,6 +561,13 @@ spec:
                               type:
                                 description: Sets the `Authorization` header on every remote read request like bearer
                                 type: string
+                  turboLite:
+                    type: object
+                    description: 'Configuration mode for turboLite'
+                    properties:
+                      enabled:
+                        type: boolean
+                        description: 'Whether to enable turboLite mode'
                   theia:
                     type: object
                     description: 'Configuration options related to collecting monitoring data from the XL instance'
@@ -4641,7 +4648,7 @@ spec:
                     description: component volume mounted as PV
                     type: boolean
                 type: object
-              cloudy-costdimensionsdeduplicator:
+              cloudy-costposttransformprocessor:
                 properties:
                   annotations:
                     type: object

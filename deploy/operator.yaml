@@ -19,10 +19,14 @@ spec:
       labels:
         name: t8c-operator
     spec:
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
       serviceAccountName: t8c-operator
       containers:
       - name: t8c-operator
-        image: icr.io/cpopen/t8c-operator:42.103
+        image: icr.io/cpopen/t8c-operator:42.104
         imagePullPolicy: Always
         env:
         - name: WATCH_NAMESPACE
@@ -40,6 +44,8 @@ spec:
           capabilities:
             drop:
               - ALL
+          allowPrivilegeEscalation: false
+          privileged: false
         volumeMounts:
         - mountPath: /tmp
           name: operator-tmpfs0

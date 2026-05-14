@@ -20,11 +20,14 @@ spec:
   global:
     deploymentMode: PARKING
     repository: icr.io/cpopen/turbonomic
-    tag: 8.19.5
+    tag: 8.19.6
     externalIP: 10.0.2.15
     externalDbIP: 10.0.2.15
     externalTimescaleDBIP: 10.0.2.15
     enableExternalSecrets: true
+    hostingProvider: aws
+    hostingPlatform: rosa
+    hostingRegion: <CLUSTER_AWS_REGION>
     telemetry:
       automatic:
         enabled: true
@@ -87,7 +90,7 @@ spec:
   pure:
     enabled: false
   prometheus-mysql-exporter:
-    enabled: false
+    enabled: true
     mysql:
       user: root
       pass: vmturbo

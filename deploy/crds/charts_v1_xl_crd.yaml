@@ -335,12 +335,40 @@ spec:
                   storageSelector:
                     description: Use StorageSelector for statically provisioned persistent volume
                     type: boolean
+                  containerSecurityContext:
+                    description: Security context applied at the container level
+                    type: object
+                    properties:
+                      allowPrivilegeEscalation:
+                        description: Whether a process can gain more privileges than its parent
+                        type: boolean
+                      privileged:
+                        description: Run container in privileged mode
+                        type: boolean
+                      readOnlyRootFilesystem:
+                        description: Whether the container root filesystem is read-only
+                        type: boolean
+                      runAsUser:
+                        description: UID to run the container process as
+                        type: integer
+                      capabilities:
+                        description: Linux capabilities to add or drop
+                        type: object
                   securityContext:
                     description: Security Context for persistent volumes
                     properties:
                       fsGroup:
                         description: Group ID used for persisent volumes globally.
                         type: integer
+                      runAsUser:
+                        description: UID to run the container process as
+                        type: integer
+                      runAsNonRoot:
+                        description: Require the container to run as a non-root user
+                        type: boolean
+                      seccompProfile:
+                        description: Seccomp profile configuration
+                        type: object
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
                   ingress:
@@ -1114,8 +1142,105 @@ spec:
                   image:
                     *imageProperties
                   hubURL:
-                    description: IBM Solis Hub url
+                    description: Hub URL
                     type: string
+                  service:
+                    description: Service config
+                    type: object
+                    properties:
+                      type:
+                        description: Service type
+                        type: string
+                      port:
+                        description: Port
+                        type: integer
+                      targetPort:
+                        description: Target port
+                        type: integer
+                      externalIPs:
+                        description: External IPs
+                        type: array
+                        items:
+                          type: string
+                  ingress:
+                    description: Ingress config
+                    type: object
+                    properties:
+                      enabled:
+                        description: Enable ingress
+                        type: boolean
+                      ingressClassName:
+                        description: Ingress class
+                        type: string
+                      annotations:
+                        description: Annotations
+                        type: object
+                        additionalProperties:
+                          type: string
+                      hosts:
+                        description: Hosts config
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            host:
+                              description: Host
+                              type: string
+                            paths:
+                              description: Paths
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  path:
+                                    description: Path
+                                    type: string
+                                  pathType:
+                                    description: Path type
+                                    type: string
+                                  port:
+                                    description: Backend service port
+                                    type: integer
+                      tls:
+                        description: TLS configuration
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            secretName:
+                              description: TLS secret name
+                              type: string
+                            hosts:
+                              description: TLS hosts
+                              type: array
+                              items:
+                                type: string
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                type: object
+              concert-gateway:
+                properties:
+                  enabled:
+                    description: Enable concert-gateway
+                    type: boolean
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  image:
+                    *imageProperties
+                  hubURL:
+                    description: Concert hub URL
+                    type: string
+                  ingress:
+                    description: Ingress config
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  service:
+                    description: Service config
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
                   resources:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
@@ -1135,7 +1260,11 @@ spec:
                     description: environment variables
                     items:
                       type: object
+                      x-kubernetes-preserve-unknown-fields: true
                     type: array
+                  concertHubUrl:
+                    description: Concert hub URL for nginx
+                    type: string
                   externalTrafficPolicy:
                     description: external traffic policy for nginx (default is Local)
                     type: string
@@ -6819,6 +6948,51 @@ spec:
                     description: Kubecost Probe config settings
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
+              container-savings:
+                type: object
+                properties:
+                  enabled:
+                    description: Enable Container Savings
+                    type: boolean
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  imagePullSecrets:
+                    items:
+                      type: string
+                    type: array
+                  migrate:
+                    description: Migration init container configuration
+                    type: object
+                    properties:
+                      image:
+                        *imageProperties
+                  analytics:
+                    description: Analytics container configuration
+                    type: object
+                    properties:
+                      image:
+                        *imageProperties
+                      resources:
+                        type: object
+                        x-kubernetes-preserve-unknown-fields: true
+                  api:
+                    description: API container configuration
+                    type: object
+                    properties:
+                      image:
+                        *imageProperties
+                      resources:
+                        type: object
+                        x-kubernetes-preserve-unknown-fields: true
+                  config:
+                    description: Container savings config settings
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
               # Custom properties for component configuration
               properties:
                 description: Custom property overrides
@@ -6853,6 +7027,9 @@ spec:
                   api:
                     description: api property overrides
                     properties:
+                      basePrefixUrl:
+                        description: Base URL prefix for API endpoints when deployed behind Concert Platform Gateway (e.g., /turbonomic)
+                        type: string
                       samlEnabled:
                         description: Enable SAML SSO
                         type: boolean

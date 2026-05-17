@@ -1,0 +1,112 @@
+image:
+  registryURL: icr.io/cpopen/t8c-operator:42.74
+  pullPolicy: IfNotPresent
+
+crImage:
+  repositoryURL: icr.io/cpopen/turbonomic
+  tag: 8.15.2
+  externalDbIP: 10.0.2.15
+
+hosting:
+  hostingMode: self-hosted
+  hostingProvider: gcp
+  hostingPlatform: gke
+  hostingRegion: us-east1
+
+# leaving this unset omits it from the rendered config
+storageClassName:
+
+# set any annotations to the ingress in the normal yaml format
+# omitting annotations removes the ingress spec entirely from the chat
+ingress:
+  annotations:
+
+# This block will be reproduced exactly in the CR config
+# you can add new flags to it and it will put them in the right place
+features:
+  actionscript:
+    enabled: false
+  actionstream-kafka:
+    enabled: false
+  appdynamics:
+    enabled: false
+  aws:
+    enabled: false
+  azure:
+    enabled: false
+    metrics:
+      enabled: false
+  dynatrace:
+    enabled: false
+  gcp:
+    enabled: true
+  hpe3par:
+    enabled: false
+  horizon:
+    enabled: false
+  hyperflex:
+    enabled: false
+  hyperv:
+    enabled: false
+  ibmstorage-flashsystem:
+    enabled: false
+  kubeturbo:
+    enabled: false
+  netapp:
+    enabled: false
+  nutanix:
+    enabled: false
+  oneview:
+    enabled: false
+  prometheus-mysql-exporter:
+    enabled: false
+  prometheus:
+    enabled: false
+  prometurbo:
+    enabled: false
+  pure:
+    enabled: false
+  scaleio:
+    enabled: false
+  servicenow:
+    enabled: false
+  ucs:
+    enabled: false
+  vcenter:
+    enabled: true
+  vmax:
+    enabled: false
+  vmm:
+    enabled: false
+  wmi:
+    enabled: false
+  snmp:
+    enabled: false
+  mssql:
+    enabled: false
+  mysql:
+    enabled: false
+  oracle:
+    enabled: false
+  tomcat:
+    enabled: false
+  jvm:
+    enabled: false
+  newrelic:
+    enabled: false
+  udt:
+    enabled: false
+  websphere:
+    enabled: false
+  weblogic:
+    enabled: false
+  xen:
+    enabled: false
+  instana:
+    enabled: false
+  datadog:
+    enabled: false
+  powervm:
+    enabled: false
+  metrics-processor:
+    enabled: false

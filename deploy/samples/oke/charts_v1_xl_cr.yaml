@@ -18,7 +18,7 @@ spec:
     #  registry: index.docker.io
     #  imageUsername: turbouser
     repository: icr.io/cpopen/turbonomic
-    tag: 8.19.6
+    tag: 8.20.0
     # If using an external database server with Turbonomic, then
     # specify either the externalDbIP (with the IP address) or
     # the externalDBName (with fully qualified domain name (FQDN)) of the external DB.

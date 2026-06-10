@@ -1,4 +1,3 @@
----
 apiVersion: charts.helm.k8s.io/v1
 kind: Xl
 metadata:
@@ -11,38 +10,46 @@ spec:
   # This is a YAML-formatted file.
   # Declare variables to be passed into your templates.
 
-  # Any changes run : kubectl apply -f deploy/crds/charts_v1_xl_cr.yaml -n turbonomic
+  # Any changes run : kubectl apply -f deploy/crds/charts_v1alpha1_xl_cr.yaml -n turbonomic
+  properties:
+    global:
+      featureFlags:
+        enableHostingInfoTelemetry: true
+        enableMetricsBackfillSupport: false
 
   # Global settings
   global:
-    #  registry: index.docker.io
-    #  imageUsername: turbouser
-    #  imagePassword: turbopassword
+    deploymentMode: PARKING
     repository: icr.io/cpopen/turbonomic
     tag: 8.20.1
-    # If using an external database server with Turbonomic, then
-    # specify either the externalDbIP (with the IP address) or
-    # the externalDBName (with fully qualified domain name (FQDN)) of the external DB.
-    externalDbIP: 10.0.2.15
-    # externalDBName:
+    enableExternalSecrets: true
+    hostingMode: saas
+    hostingProvider: aws
+    hostingPlatform: rosa
+    hostingRegion: <CLUSTER_AWS_REGION>
+    telemetry:
+      automatic:
+        enabled: true
+      enabled: true
+      metricFederatedSystem:
+        enabled: true
+      plg:
+        enabled: false
+      shareTelemetry: FORCE_ON
+    secret: <TELEMETRY_SECRET>
 
-    # provide the correct annotations based on the LB you want and the properties you want
-    # ingress:
-      # annotations:
-        # service.beta.kubernetes.io/azure-load-balancer-internal: "true"
-    # To use the default storage class in the deployment, remove the storageClassName property.
-    # To specify a non-default storage class, include the storageClassName property as shown below.
-    storageClassName: managed-csi-retain
-    # Hosting modes for component: self-hosted, saas
-    #hostingMode: self-hosted
-    # Hosting Provider for a component: azure
-    hostingProvider: azure
-    # Offering by the hosting provider: aks
-    hostingPlatform: aks
-    # Hosting Region of a component: eastus2 etc
-    #hostingRegion: eastus2
+  grafana:
+    # Grafana is disabled by default. To enable it, uncomment:
+    enabled: false
+    adminPassword: passwordPlaceholder
+    grafana.ini:
+      database:
+        # Store data in sqlite3 (no persistence across restarts) by default.
+        # To persist, uncomment:
+        type: postgres
+        password: passwordPlaceholder
 
-  # Component selector - Probes can be enabled based on the requirement
+  # Component selector - Probes
   actionscript:
     enabled: false
   actionstream-kafka:
@@ -50,12 +57,14 @@ spec:
   appdynamics:
     enabled: false
   aws:
-    enabled: false
+    enabled: true
   azure:
     enabled: true
   dynatrace:
     enabled: false
   gcp:
+    enabled: true
+  oci:
     enabled: false
   hpe3par:
     enabled: false
@@ -75,14 +84,17 @@ spec:
     enabled: false
   oneview:
     enabled: false
-  prometheus-mysql-exporter:
-    enabled: false
-  prometheus:
-    enabled: false
   prometurbo:
     enabled: false
   pure:
     enabled: false
+  prometheus-mysql-exporter:
+    enabled: true
+    mysql:
+      user: root
+      pass: vmturbo
+  prometheus:
+    enabled: true
   scaleio:
     enabled: false
   servicenow:
@@ -115,13 +127,35 @@ spec:
     enabled: false
   websphere:
     enabled: false
+  powervm:
+    enabled: false
   weblogic:
     enabled: false
   xen:
     enabled: false
   instana:
     enabled: false
+  suspend:
+    enabled: true
   datadog:
     enabled: false
-  powervm:
+  metrics-processor:
+    enabled: false
+  oauth2:
+    enabled: true
+  container-action-cost:
+    enabled: false
+  server-power-modeler:
+    enabled: false
+  cloud-optimizer:
+    enabled: false
+  sustainability:
+    enabled: false
+  metadata:
+    enabled: false
+  webhook:
+    enabled: false
+  kubecost:
+    enabled: false
+  clickhouse:
     enabled: false

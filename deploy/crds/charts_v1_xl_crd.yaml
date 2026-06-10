@@ -430,7 +430,7 @@ spec:
                     properties:
                       secret:
                         type: string
-                        description: 'An opaque token encapsulating credentials to various services'
+                        description: 'An optional opaque token encapsulating credentials to various services'
                       config:
                         properties:
                           env.parameters:
@@ -596,6 +596,9 @@ spec:
                       enabled:
                         type: boolean
                         description: 'Whether to enable turboLite mode'
+                      testing:
+                        type: boolean
+                        description: 'development testing mode for turbolite specific probes'
                   theia:
                     type: object
                     description: 'Configuration options related to collecting monitoring data from the XL instance'
@@ -1232,6 +1235,9 @@ spec:
                     *imageProperties
                   hubURL:
                     description: Concert hub URL
+                    type: string
+                  productLogoutEndpoint:
+                    description: Product logout endpoint path
                     type: string
                   ingress:
                     description: Ingress config
@@ -2435,6 +2441,12 @@ spec:
                     type: boolean
                   serviceMesh:
                     *serviceMesh
+                type: object
+              kubecost:
+                properties:
+                  enabled:
+                    description: Enable Kubecost mediation
+                    type: boolean
                 type: object
               mssql:
                 properties:
@@ -3677,6 +3689,8 @@ spec:
                   mipApproach:
                     type: boolean
                   enableOnlineLearning:
+                    type: boolean
+                  enableActionTracking:
                     type: boolean
               cas-training:
                 type: object
@@ -5513,6 +5527,9 @@ spec:
                   serviceAccountName:
                     type: string
                 type: object
+              mediation-bitbucket:
+                x-kubernetes-preserve-unknown-fields: true
+                type: object
               mediation-hds:
                 properties:
                   annotations:
@@ -6913,12 +6930,41 @@ spec:
                   serviceAccountName:
                     type: string
                 type: object
+              mediation-concert:
+                type: object
+                properties:
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  concertTurbo:
+                    description: Concert Turbo Probe configuration
+                    type: object
+                    properties:
+                      image:
+                        *imageProperties
+                      resources:
+                        type: object
+                        x-kubernetes-preserve-unknown-fields: true
+                  turbodif:
+                    description: Turbodif configuration
+                    type: object
+                    properties:
+                      image:
+                        *imageProperties
+                      resources:
+                        type: object
+                        x-kubernetes-preserve-unknown-fields: true
+                  concertConfig:
+                    description: Concert config settings
+                    type: string
+                    x-kubernetes-preserve-unknown-fields: true
               mediation-kubecost:
                 type: object
                 properties:
-                  enabled:
-                    description: Enable Kubecost Mediation
-                    type: boolean
                   annotations:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
@@ -6946,6 +6992,42 @@ spec:
                         x-kubernetes-preserve-unknown-fields: true
                   config:
                     description: Kubecost Probe config settings
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+              mediation-turbonomic:
+                type: object
+                properties:
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  imagePullSecrets:
+                    items:
+                      type: string
+                    type: array
+                  turboliteturbo:
+                    description: Turbonomic Probe to turbolite configuration
+                    type: object
+                    properties:
+                      image:
+                        *imageProperties
+                      resources:
+                        type: object
+                        x-kubernetes-preserve-unknown-fields: true
+                  turbodif:
+                    description: Turbodif configuration
+                    type: object
+                    properties:
+                      image:
+                        *imageProperties
+                      resources:
+                        type: object
+                        x-kubernetes-preserve-unknown-fields: true
+                  dataSourceConfig:
+                    description: Optional turbolite data source config settings
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
               container-savings:

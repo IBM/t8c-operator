@@ -1,0 +1,195 @@
+---
+apiVersion: charts.helm.k8s.io/v1
+kind: Xl
+metadata:
+  name: xl-release
+spec:
+  # Global settings
+  global:
+    repository: icr.io/cpopen/turbonomic
+    tag: 8.20.1.1
+    externalIP: 10.0.2.15
+    #externalDbIP: 10.0.2.15
+    enableExternalSecrets: false
+    pullPolicy: IfNotPresent
+    # Concert Requirements
+    productList: turbonomic
+    telemetry:
+      enabled: false
+  # Concert Gateway Service
+  solisgateway:
+    enabled: false
+  concert-gateway:
+    enabled: true
+    hubURL: HUB_URL
+    service:
+      type: LoadBalancer
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      annotations:
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+        nginx.ingress.kubernetes.io/ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+        nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+        nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+      hosts:
+        - host: PLATFORM_GW_HOST
+          paths:
+            - path: /
+              pathType: Prefix
+              port: 443
+      tls:
+        - secretName: nginx-ingressgateway-certs
+          hosts:
+            - PLATFORM_GW_HOST
+  # UI Configuration (disabled - Concert provides the UI)
+  ui:
+    enabled: false
+
+  # Containerized DB for testing on smaller env.
+  # Set this to false and enableExternalSecrets to
+  # true if you are not going to use a db container.
+  # Add this section to change the db sizing you want:
+  db:
+    enabled: true
+    persistence:
+      size: 5Gi
+
+  # Properties Configuration
+  properties:
+    api:
+      basePrefixUrl: /turbonomic
+      headerAuthenticationEnabled: true
+      requestHeaderSize: '20000'
+      vendor_latest_version: false
+      vendor_public_key_url: 'https://concert-gateway.NAMESPACE.svc.cluster.local/gw/auth/jwtcert'
+      vendor_public_key_skip_ssl_verification: true
+      vendor_request_jwt_cookie: ibm-platform-session
+      vendor_request_jwt_token: X-Auth-Token
+      vendor_service_user_role: User
+      vendor_skip_instance_id_check: true
+      vendor_supported_admin_role: Admin
+      vendor_supported_advisor_role: Advisor
+      vendor_supported_automator_role: Automator
+      vendor_supported_deployer_role: Deployer
+      vendor_supported_parker_automator_role: Parking Automator
+      vendor_supported_parker_role: Parking Administrator
+      vendor_supported_observer_role: Observer
+      vendor_supported_siteadmin_role: ServiceAdmin,ServiceOwner,Site Administrator
+      allowTargetManagementInIntegrationMode: true
+    global:
+      concertEnabled: true
+      deploymentMode: SERVER
+      oauth2:
+        audience: CONCERT
+      solisEnabled: false
+  # Ingress Configuration
+  nginxingress:
+    enabled: true
+  nginx:
+    httpsRedirect: true
+    nginxIsPrimaryIngress: false
+    insecureHttpOnly: false
+    concertHubUrl: HUB_URL
+  openshiftingress:
+    enabled: false
+  grafana:
+    enabled: false
+    adminPassword: passwordPlaceholder
+    grafana.ini:
+      database:
+        # Store data in sqlite3 (no persistence across restarts) by default.
+        # To persist, uncomment:
+        type: postgres
+        password: passwordPlaceholder
+  # Component selector - Probes
+  actionscript:
+    enabled: false
+  actionstream-kafka:
+    enabled: false
+  appdynamics:
+    enabled: false
+  aws:
+    enabled: false
+  azure:
+    enabled: false
+  datadog:
+    enabled: false
+  dynatrace:
+    enabled: false
+  gcp:
+    enabled: false
+  ibmcloud:
+    enabled: false
+  instana:
+    enabled: true
+  hpe3par:
+    enabled: false
+  horizon:
+    enabled: false
+  hyperflex:
+    enabled: false
+  hyperv:
+    enabled: false
+  ibmstorage-flashsystem:
+    enabled: false
+  jvm:
+    enabled: false
+  kubeturbo:
+    enabled: false
+  metrics-processor:
+    enabled: true
+  mssql:
+    enabled: false
+  mysql:
+    enabled: false
+  netapp:
+    enabled: false
+  newrelic:
+    enabled: false
+  nutanix:
+    enabled: false
+  oneview:
+    enabled: false
+  oci:
+    enabled: false
+  oracle:
+    enabled: false
+  powervm:
+    enabled: false
+  prometheus:
+    enabled: true
+  prometheus-mysql-exporter:
+    enabled: false
+  prometurbo:
+    enabled: false
+  pure:
+    enabled: false
+  scaleio:
+    enabled: false
+  servicenow:
+    enabled: false
+  snmp:
+    enabled: false
+  tomcat:
+    enabled: false
+  ucs:
+    enabled: false
+  vcenter:
+    enabled: false
+  vmax:
+    enabled: false
+  vmm:
+    enabled: false
+  wmi:
+    enabled: false
+  udt:
+    enabled: false
+  websphere:
+    enabled: false
+  weblogic:
+    enabled: false
+  xen:
+    enabled: false

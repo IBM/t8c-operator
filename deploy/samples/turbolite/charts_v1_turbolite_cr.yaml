@@ -18,10 +18,16 @@ spec:
     turboLite:
       enabled: true
     repository: icr.io/cpopen/turbonomic
-    tag: 8.20.1
+    tag: 8.20.2
+    externalIP: 10.0.2.15
+    externalDbIP: 10.0.2.15
+    externalTimescaleDBIP: 10.0.2.15
+    enableExternalSecrets: true
 
   # Most components are disabled by helper templates when turboLite.enabled is set to true.
   
   # Required: Enable Instana  for TurboLite
   instana:
+    enabled: true
+  concert-turbo:
     enabled: true

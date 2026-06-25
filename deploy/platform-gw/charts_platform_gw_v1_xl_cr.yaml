@@ -7,7 +7,7 @@ spec:
   # Global settings
   global:
     repository: icr.io/cpopen/turbonomic
-    tag: 8.20.2
+    tag: 8.19.6
     externalIP: 10.0.2.15
     externalDbIP: 10.0.2.15
     externalTimescaleDBIP: 10.0.2.15
@@ -17,6 +17,8 @@ spec:
     productList: turbonomic
     telemetry:
       enabled: false
+      plg:
+        enabled: true
   # Concert Gateway Service
   solisgateway:
     enabled: false
@@ -25,6 +27,13 @@ spec:
     hubURL: HUB_URL
     service:
       type: LoadBalancer
+    image:
+      repository: cp.stg.icr.io/cp/platform-hub
+      tag: v3.0.0.preview01-12-20260515.164359-3.0.0_preview
+      #repository: icr.io/cpopen/turbonomic
+      #tag: 8.19.6-SNAPSHOT
+      #repository: icr.io/turbo-dev/turbonomic/michael
+      #tag: v2.4.0-55-20260331.214212-main
     ingress:
       enabled: true
       ingressClassName: nginx
@@ -36,7 +45,7 @@ spec:
         nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
         nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
       hosts:
-        - host: PLATFORM_GW_HOST
+        - host: CONCERT_HOST
           paths:
             - path: /
               pathType: Prefix
@@ -44,38 +53,46 @@ spec:
       tls:
         - secretName: nginx-ingressgateway-certs
           hosts:
-            - PLATFORM_GW_HOST
+            - CONCERT_HOST
   # UI Configuration (disabled - Concert provides the UI)
   ui:
     enabled: false
+  # API with Concert Support
+  api:
+  #image:
+  #repository: icr.io/cpopen/turbonomic
+  #tag: 8.19.6-SNAPSHOT-arun-22-39
+  #repository: icr.io/turbo-dev/turbonomic/michael
+  #tag: '202604020013'
 
   # Properties Configuration
   properties:
     api:
+      # Base URL prefix - commented out to match .65
       basePrefixUrl: /turbonomic
       headerAuthenticationEnabled: true
       requestHeaderSize: '20000'
       vendor_latest_version: false
-      vendor_public_key_url: 'https://concert-gateway.NAMESPACE.svc.cluster.local/gw/auth/jwtcert'
-      vendor_public_key_skip_ssl_verification: true
+      vendor_public_key: PUBLIC_KEY
       vendor_request_jwt_cookie: ibm-platform-session
       vendor_request_jwt_token: X-Auth-Token
-      vendor_service_user_role: User
-      vendor_skip_instance_id_check: true
-      vendor_supported_admin_role: Admin
-      vendor_supported_advisor_role: Advisor
-      vendor_supported_automator_role: Automator
-      vendor_supported_deployer_role: Deployer
-      vendor_supported_parker_automator_role: Parking Automator
-      vendor_supported_parker_role: Parking Administrator
-      vendor_supported_observer_role: Observer
-      vendor_supported_siteadmin_role: ServiceAdmin,ServiceOwner,Site Administrator
+      vendor_supported_admin_role: 'Admin'
+      vendor_supported_advisor_role: 'Advisor'
+      vendor_supported_automator_role: 'Automator'
+      vendor_supported_deployer_role: 'Deployer'
+      vendor_supported_parker_automator_role: 'Parking Automator'
+      vendor_supported_parker_role: 'Parking Administrator'
+      vendor_supported_observer_role: 'Observer'
+      vendor_supported_siteadmin_role: 'ServiceAdmin,ServiceOwner,Site Administrator'
+      clockSkewSecond: 315360000
       allowTargetManagementInIntegrationMode: true
+      tenantId: TENANT_ID
+      serviceUsername: User
     global:
       concertEnabled: true
       deploymentMode: SERVER
       oauth2:
-        audience: CONCERT
+        audience: SOLIS
       solisEnabled: false
   # Ingress Configuration
   nginxingress:
@@ -153,6 +170,10 @@ spec:
     enabled: false
   prometheus:
     enabled: true
+    server:
+      global:
+        external_labels:
+          tenant_id: TENANT_ID
   prometheus-mysql-exporter:
     enabled: false
   prometurbo:

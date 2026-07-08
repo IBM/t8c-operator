@@ -853,6 +853,9 @@ spec:
               # Configure platform
               consul:
                 properties:
+                  kvMaxValueSize:
+                    description: Maximum size in bytes for values in Consul KV store
+                    type: integer
                   persistence: *persistence
                   annotations:
                     type: object
@@ -1346,6 +1349,12 @@ spec:
                       burst:
                         # The burst (bucket) size
                         type: string
+                  httpsPort:
+                    # The HTTPS service port exposed by the nginx Service (default 443)
+                    type: integer
+                  httpPort:
+                    # The HTTP service port exposed by the nginx Service (default 80)
+                    type: integer
                 type: object
               postgres:
                 properties:
@@ -3396,6 +3405,11 @@ spec:
                   enabled:
                     # Enable Maintenance component
                     type: boolean
+                  databases:
+                    # List of databases to optimize (optional - if omitted, all databases will be optimized)
+                    type: array
+                    items:
+                      type: string
                   dbSecretName:
                     *dbComponentProperties
                   annotations:
@@ -3567,6 +3581,39 @@ spec:
                     *imageProperties
                   volumes:
                     *volumeForNfs
+                  javaBaseOptions:
+                    type: string
+                  javaComponentOptions:
+                    type: string
+                  javaDebugOptions:
+                    type: string
+                  javaMaxRAMPercentage:
+                    type: string
+                  javaOptions:
+                    type: string
+                  debug:
+                    type: boolean
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceAccountName:
+                    type: string
+                type: object
+              topology-pipeline:
+                properties:
+                  enabled:
+                    type: boolean
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  affinity:
+                    *componentAffinity
+                  image:
+                    *imageProperties
                   javaBaseOptions:
                     type: string
                   javaComponentOptions:
@@ -4664,6 +4711,44 @@ spec:
                     type: string
                 type: object
               metrics-adapter-oci-monitoring:
+                properties:
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  env:
+                    # environment variables
+                    type: array
+                    items:
+                      type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  enabled:
+                    # Enable new metrics framework
+                    type: boolean
+                  image:
+                    *imageProperties
+                  javaBaseOptions:
+                    type: string
+                  javaComponentOptions:
+                    type: string
+                  javaDebugOptions:
+                    type: string
+                  javaMaxRAMPercentage:
+                    type: string
+                  javaOptions:
+                    type: string
+                  debug:
+                    type: boolean
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceAccountName:
+                    type: string
+                type: object
+              metrics-adapter-ibmcloud-monitoring:
                 properties:
                   annotations:
                     type: object

@@ -7,7 +7,7 @@ spec:
   # Global settings
   global:
     repository: icr.io/cpopen/turbonomic
-    tag: 8.20.2
+    tag: 8.20.3
     externalIP: 10.0.2.15
     externalDbIP: 10.0.2.15
     externalTimescaleDBIP: 10.0.2.15

@@ -687,6 +687,23 @@ spec:
                       workflow:
                         # Indicates the usage of the container cost workflow in Turbo. Currently bypassed by CLOUDABILITY_PREMIUM deploymentMode
                         type: boolean
+                  hashicorp-vault:
+                    type: object
+                    # Configuration of Hashicorp Vault Agent Injector.
+                    properties:
+                      enabled:
+                        type: boolean
+                        # Whether Hashicorp Vault Agent Injector pod should be created.
+                      externalVaultAddr:
+                        # The url connecting to external Vault
+                        type: string
+                      externalVaultMountPath:
+                        # The mount path for auth under external Vault
+                        type: string
+                      image:
+                        *imageProperties
+                      tolerations:
+                        *componentTolerations
               # Enable Platform
               nginxingress:
                 properties:
@@ -1243,6 +1260,9 @@ spec:
                     *imageProperties
                   hubURL:
                     # Concert hub URL
+                    type: string
+                  dalHubURL:
+                    # DAL hub URL
                     type: string
                   productLogoutEndpoint:
                     # Product logout endpoint path
@@ -2116,23 +2136,6 @@ spec:
                   persistentVolumeClaim: *persistentVolumeClaim
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
-              hashicorp-vault:
-                type: object
-                # Configuration of Hashicorp Vault Agent Injector.
-                properties:
-                  enabled:
-                    type: boolean
-                    # Whether Hashicorp Vault Agent Injector pod should be created.
-                  externalVaultAddr:
-                    # The url connecting to external Vault
-                    type: string
-                  externalVaultMountPath:
-                    # The mount path for auth under external Vault
-                    type: string
-                  image:
-                    *imageProperties
-                  tolerations:
-                    *componentTolerations
 
               # Enable mediation
               actionscript:
@@ -4711,44 +4714,6 @@ spec:
                     type: string
                 type: object
               metrics-adapter-oci-monitoring:
-                properties:
-                  annotations:
-                    type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
-                  tolerations:
-                    *componentTolerations
-                  env:
-                    # environment variables
-                    type: array
-                    items:
-                      type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  enabled:
-                    # Enable new metrics framework
-                    type: boolean
-                  image:
-                    *imageProperties
-                  javaBaseOptions:
-                    type: string
-                  javaComponentOptions:
-                    type: string
-                  javaDebugOptions:
-                    type: string
-                  javaMaxRAMPercentage:
-                    type: string
-                  javaOptions:
-                    type: string
-                  debug:
-                    type: boolean
-                  resources:
-                    type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  serviceAccountName:
-                    type: string
-                type: object
-              metrics-adapter-ibmcloud-monitoring:
                 properties:
                   annotations:
                     type: object

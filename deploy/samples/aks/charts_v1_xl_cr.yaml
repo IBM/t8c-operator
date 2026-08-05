@@ -19,7 +19,7 @@ spec:
     #  imageUsername: turbouser
     #  imagePassword: turbopassword
     repository: icr.io/cpopen/turbonomic
-    tag: 8.20.4
+    tag: 8.20.5
     # If using an external database server with Turbonomic, then
     # specify either the externalDbIP (with the IP address) or
     # the externalDBName (with fully qualified domain name (FQDN)) of the external DB.
@@ -41,6 +41,10 @@ spec:
     hostingPlatform: aks
     # Hosting Region of a component: eastus2 etc
     #hostingRegion: eastus2
+
+    # Enable external secrets (recommended since 8.1.2)
+    # Requires master-key-secret before deployment.
+    enableExternalSecrets: true
 
   # Component selector - Probes can be enabled based on the requirement
   actionscript:

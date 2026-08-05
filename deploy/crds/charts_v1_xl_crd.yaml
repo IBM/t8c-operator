@@ -604,6 +604,17 @@ spec:
                       testing:
                         type: boolean
                         # development testing mode for turbolite specific probes
+                      license:
+                        type: object
+                        # License configuration for turboLite
+                        properties:
+                          injection:
+                            type: object
+                            # License injection configuration
+                            properties:
+                              enabled:
+                                type: boolean
+                                # Whether to enable automatic license injection
                   theia:
                     type: object
                     # Configuration options related to collecting monitoring data from the XL instance
@@ -2368,6 +2379,11 @@ spec:
                   enabled:
                     # Enable IBM Cloud mediation
                     type: boolean
+                  metrics:
+                    type: object
+                    properties:
+                      enabled:
+                        type: boolean
                   serviceMesh:
                     *serviceMesh
                 type: object
@@ -4751,6 +4767,44 @@ spec:
                   serviceAccountName:
                     type: string
                 type: object
+              metrics-collector-ibmcloud:
+                properties:
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  env:
+                    # environment variables
+                    type: array
+                    items:
+                      type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  enabled:
+                    # Enable new metrics framework
+                    type: boolean
+                  image:
+                    *imageProperties
+                  javaBaseOptions:
+                    type: string
+                  javaComponentOptions:
+                    type: string
+                  javaDebugOptions:
+                    type: string
+                  javaMaxRAMPercentage:
+                    type: string
+                  javaOptions:
+                    type: string
+                  debug:
+                    type: boolean
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceAccountName:
+                    type: string
+                type: object
               mediation-apptio-cloudability:
                 properties:
                   annotations:
@@ -7013,6 +7067,10 @@ spec:
                     *serviceMesh
                   tolerations:
                     *componentTolerations
+                  imagePullSecrets:
+                    items:
+                      type: string
+                    type: array
                   concertTurbo:
                     # Concert Turbo Probe configuration
                     type: object
@@ -7035,6 +7093,12 @@ spec:
                     # Concert config settings
                     type: string
                     x-kubernetes-preserve-unknown-fields: true
+                  logging:
+                    # Logging level for concert-turbo
+                    type: object
+                    properties:
+                      level:
+                        type: integer
               mediation-kubecost:
                 type: object
                 properties:

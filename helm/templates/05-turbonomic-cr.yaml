@@ -1,0 +1,55 @@
+# https://raw.githubusercontent.com/IBM/t8c-operator/refs/heads/main/deploy/samples/gke/charts_v1_xl_cr.yaml
+#
+apiVersion: charts.helm.k8s.io/v1
+kind: Xl
+metadata:
+  name: xl-release
+spec:
+  # This configuration file is used for production.
+  # Default values copied from <project_dir>/helm-charts/xl/values.yaml
+
+  # Default values for xl.
+  # This is a YAML-formatted file.
+  # Declare variables to be passed into your templates.
+
+  # Any changes run : kubectl apply -f deploy/crds/charts_v1alpha1_xl_cr.yaml -n turbonomic
+
+  # Global settings
+  global:
+    #  registry: index.docker.io
+    #  imageUsername: turbouser
+    #  imagePassword: turbopassword
+    repository: {{ .Values.crImage.repositoryURL }}
+    tag: {{ .Values.crImage.tag }}
+    # If using an external database server with Turbonomic, then
+    # specify either the externalDbIP (with the IP address) or
+    # the externalDBName (with fully qualified domain name (FQDN)) of the external DB.
+    externalDbIP: {{ .Values.crImage.externalDbIP }}
+    # externalDBName:
+    # provide the correct annotations based on the LB you want and the properties you want
+    {{- if .Values.ingress.annotations }}
+    ingress:
+      annotations:
+{{ toYaml .Values.ingress.annotations | indent 8 }}
+    {{- end }}
+    # To use the default storage class in the deployment, remove the storageClassName property.
+    # To specify a non-default storage class, include the storageClassName property as shown below.
+    {{- if .Values.storageClassName }}
+    storageClassName: {{ .Values.storageClassName }}
+    {{- end }}
+    #storageClassName: standard-rwo-retain
+    # Hosting modes for component: self-hosted, saas
+    hostingMode: {{ .Values.hosting.hostingMode }}
+    # Hosting Provider for a component: gcp
+    hostingProvider: {{ .Values.hosting.hostingProvider }}
+    # Offering by the hosting provider: gke
+    hostingPlatform: {{ .Values.hosting.hostingPlatform }}
+    # Hosting Region of a component: us-central1 etc
+    hostingRegion: {{ .Values.hosting.hostingRegion }}
+
+  # Component selector - Probes can be enabled based on the requirement
+{{ toYaml .Values.features | indent 2 }}
+
+
+
+

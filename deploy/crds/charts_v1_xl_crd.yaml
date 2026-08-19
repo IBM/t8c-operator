@@ -812,10 +812,18 @@ spec:
                       enabled:
                         type: boolean
                     type: object
+                  performanceProfile:
+                    type: string
+                  performanceSettings:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
                   keeper:
                     properties:
                       create:
                         type: boolean
+                      # Expected to be one of: [EMBEDDED, STANDALONE, UNMANAGED].
+                      mode:
+                        type: string
                       logLevel:
                         type: string
                       replicasCount:
@@ -878,6 +886,9 @@ spec:
                         x-kubernetes-preserve-unknown-fields: true
                     type: object
                 type: object
+                x-kubernetes-validations:
+                  - rule: "!(self.keeper.mode == 'EMBEDDED' && has(self.replicasCount) && self.replicasCount > 1)"
+                    message: "replicasCount must be 1"
               # Configure platform
               consul:
                 properties:
@@ -2501,6 +2512,14 @@ spec:
                 properties:
                   enabled:
                     # Enable NetApp mediation
+                    type: boolean
+                  serviceMesh:
+                    *serviceMesh
+                type: object
+              portworx:
+                properties:
+                  enabled:
+                    # Enable Portworx mediation
                     type: boolean
                   serviceMesh:
                     *serviceMesh
@@ -6213,6 +6232,41 @@ spec:
                     type: string
                 type: object
               mediation-netapp:
+                properties:
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  env:
+                    # environment variables
+                    type: array
+                    items:
+                      type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  image:
+                    *imageProperties
+                  javaBaseOptions:
+                    type: string
+                  javaComponentOptions:
+                    type: string
+                  javaDebugOptions:
+                    type: string
+                  javaMaxRAMPercentage:
+                    type: string
+                  javaOptions:
+                    type: string
+                  debug:
+                    type: boolean
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  serviceAccountName:
+                    type: string
+                type: object
+              mediation-portworx:
                 properties:
                   annotations:
                     type: object

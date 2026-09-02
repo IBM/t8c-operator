@@ -18,10 +18,7 @@ spec:
     turboLite:
       enabled: true
     repository: icr.io/cpopen/turbonomic
-    tag: 8.20.6
-    externalIP: 10.0.2.15
-    externalDbIP: 10.0.2.15
-    externalTimescaleDBIP: 10.0.2.15
+    tag: 8.21.0
     enableExternalSecrets: true
 
   # Most components are disabled by helper templates when turboLite.enabled is set to true.

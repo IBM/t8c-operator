@@ -715,6 +715,17 @@ spec:
                         *imageProperties
                       tolerations:
                         *componentTolerations
+                  resizePolicy:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        resourceName:
+                          # The resource this policy applies to (e.g. cpu, memory)
+                          type: string
+                        restartPolicy:
+                          # Restart behavior on resize: NotRequired or RestartContainer
+                          type: string
               # Enable Platform
               nginxingress:
                 properties:
@@ -2139,6 +2150,19 @@ spec:
                   tolerations:
                     *componentTolerations
                 type: object
+              prometheus-pushgateway:
+                properties:
+                  enabled:
+                    # Enable prometheus pushgateway
+                    type: boolean
+                  image:
+                    *imageProperties
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  tolerations:
+                    *componentTolerations
+                type: object
               grafana:
                 properties:
                   dbSecretName:
@@ -2324,6 +2348,9 @@ spec:
                   javaOptions:
                     type: string
                   debug:
+                    type: boolean
+                  pushgatewayEnabled:
+                    # Enable pushing metrics to prometheus pushgateway
                     type: boolean
                   resources:
                     type: object
@@ -3443,6 +3470,10 @@ spec:
                   enabled:
                     # Enable Maintenance component
                     type: boolean
+                  mode:
+                    # Lifecycle mode: cron (default) or service
+                    type: string
+                    enum: [cron, service]
                   databases:
                     # List of databases to optimize (optional - if omitted, all databases will be optimized)
                     type: array

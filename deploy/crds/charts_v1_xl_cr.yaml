@@ -19,11 +19,13 @@ spec:
   #  imageUsername: turbouser
   #  imagePassword: turbopassword
     repository: icr.io/cpopen/turbonomic
-    tag: 8.21.1
+    tag: 8.21.2
     externalIP: 10.0.2.15
     externalDbIP: 10.0.2.15
     externalTimescaleDBIP: 10.0.2.15
     enableExternalSecrets: true
+    databricks:
+      enabled: true
 
   grafana:
     # Grafana is disabled by default. To enable it, uncomment:
@@ -46,8 +48,6 @@ spec:
   aws:
     enabled: true
   azure:
-    enabled: true
-  databricks:
     enabled: true
   dynatrace:
     enabled: true

@@ -18,7 +18,7 @@ spec:
     turboLite:
       enabled: true
     repository: icr.io/cpopen/turbonomic
-    tag: 8.21.1
+    tag: 8.21.2
     enableExternalSecrets: true
 
   # Most components are disabled by helper templates when turboLite.enabled is set to true.
@@ -32,3 +32,12 @@ spec:
     enabled: false
   metrics-store:
     enabled: false
+
+  # Only used in Red Hat OpenShift deployments - uncomment if needed
+  #nginx:
+  #  nginxIsPrimaryIngress: false
+  #  httpsRedirect: false
+  #nginxingress:
+  #  enabled: true
+  #openshiftingress:
+  #  enabled: true

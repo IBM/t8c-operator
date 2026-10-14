@@ -165,3 +165,15 @@ rules:
   - mutatingwebhookconfigurations
   verbs:
   - '*'
+- apiGroups:
+    - external-secrets.io
+  resources:
+    - externalsecrets
+  verbs:
+    - get
+    - list
+    - watch
+    - create
+    - patch
+    - delete
+    - update

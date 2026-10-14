@@ -178,6 +178,12 @@ spec:
                       # to for this object store (e.g. an AWS Role ARN)
                       roleId:
                         type: string
+                  smtp:
+                    # SMTP configuration for email notifications.
+                    type: object
+                    properties:
+                      secret:
+                        type: string
                   dbSecretName:
                     *dbComponentProperties
                   registry:
@@ -2938,6 +2944,12 @@ spec:
                   resources:
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
+                  vectordb:
+                    properties:
+                      resources:
+                        type: object
+                        x-kubernetes-preserve-unknown-fields: true
+                    type: object
                 type: object
               sustainability:
                 properties:
@@ -4368,80 +4380,6 @@ spec:
                   serviceAccountName:
                     type: string
                 type: object
-              mediation-azurecost:
-                properties:
-                  annotations:
-                    type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
-                  tolerations:
-                    *componentTolerations
-                  dataConfigMapName:
-                    type: string
-                  env:
-                    # environment variables
-                    type: array
-                    items:
-                      type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  image:
-                    *imageProperties
-                  javaBaseOptions:
-                    type: string
-                  javaComponentOptions:
-                    type: string
-                  javaDebugOptions:
-                    type: string
-                  javaMaxRAMPercentage:
-                    type: string
-                  javaOptions:
-                    type: string
-                  debug:
-                    type: boolean
-                  resources:
-                    type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  serviceAccountName:
-                    type: string
-                type: object
-              mediation-azureea:
-                properties:
-                  annotations:
-                    type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
-                  tolerations:
-                    *componentTolerations
-                  dataConfigMapName:
-                    type: string
-                  env:
-                    # environment variables
-                    type: array
-                    items:
-                      type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  image:
-                    *imageProperties
-                  javaBaseOptions:
-                    type: string
-                  javaComponentOptions:
-                    type: string
-                  javaDebugOptions:
-                    type: string
-                  javaMaxRAMPercentage:
-                    type: string
-                  javaOptions:
-                    type: string
-                  debug:
-                    type: boolean
-                  resources:
-                    type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  serviceAccountName:
-                    type: string
-                type: object
               mediation-azurebilling:
                 properties:
                   annotations:
@@ -4529,41 +4467,6 @@ spec:
                     *componentTolerations
                   dataConfigMapName:
                     type: string
-                  env:
-                    # environment variables
-                    type: array
-                    items:
-                      type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  image:
-                    *imageProperties
-                  javaBaseOptions:
-                    type: string
-                  javaComponentOptions:
-                    type: string
-                  javaDebugOptions:
-                    type: string
-                  javaMaxRAMPercentage:
-                    type: string
-                  javaOptions:
-                    type: string
-                  debug:
-                    type: boolean
-                  resources:
-                    type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  serviceAccountName:
-                    type: string
-                type: object
-              mediation-azurevolumes:
-                properties:
-                  annotations:
-                    type: object
-                    x-kubernetes-preserve-unknown-fields: true
-                  serviceMesh:
-                    *serviceMesh
-                  tolerations:
-                    *componentTolerations
                   env:
                     # environment variables
                     type: array

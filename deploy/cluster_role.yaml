@@ -123,6 +123,7 @@ rules:
   - watch
   - create
   - patch
+  - update
   - delete
 - apiGroups:
   - cert-manager.io

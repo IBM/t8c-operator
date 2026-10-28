@@ -748,6 +748,10 @@ spec:
                     type: boolean
                   serviceMesh:
                     *serviceMesh
+                  timeout:
+                    # Timeout for OpenShift routes (e.g. 5m)
+                    type: string
+                    pattern: '^[0-9]+(ms|s|m|h)$'
                 type: object
               platform:
                 properties:
@@ -2894,6 +2898,29 @@ spec:
                   image:
                     *imageProperties
                 type: object
+              tsc-oauth:
+                properties:
+                  enabled:
+                    # Enable tsc-oauth service
+                    type: boolean
+                  config:
+                    properties:
+                      debug:
+                        type: boolean
+                    type: object
+                  serviceMesh:
+                    *serviceMesh
+                  tolerations:
+                    *componentTolerations
+                  image:
+                    *imageProperties
+                  resources:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  annotations:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                type: object
               oauth2:
                 properties:
                   dbSecretName:
@@ -3289,6 +3316,8 @@ spec:
                         type: boolean
                   serviceAccountName:
                     type: string
+                  createClusterMgrRole:
+                    type: boolean
                 type: object
               cost:
                 properties:
